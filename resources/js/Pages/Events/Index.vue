@@ -24,10 +24,13 @@ const formatDate = (dateString) => {
 
 <template>
     <MainLayout>
+        <template #header>
+            <h1 class="text-2xl font-bold text-gray-800">Events</h1>
+        </template>
         <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4 sm:px-6 lg:px-8">
             <div class="max-w-7xl mx-auto">
                 <!-- Header Section -->
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4">
+                <!-- <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4">
                     <div>
                         <h1 class="text-3xl font-bold text-gray-900">Your Events</h1>
                         <p class="mt-2 text-lg text-gray-600">Manage and scan tickets for your upcoming events</p>
@@ -42,7 +45,7 @@ const formatDate = (dateString) => {
                     </svg>
                     Create Event
                     </Link>
-                </div>
+                </div> -->
 
                 <!-- Empty State -->
                 <div v-if="events.length === 0"
@@ -97,7 +100,7 @@ const formatDate = (dateString) => {
                         <div class="p-6">
                             <div class="flex justify-between items-start">
                                 <h3 class="text-xl font-bold text-gray-900 truncate">{{ event.name || 'Untitled Event'
-                                    }}</h3>
+                                }}</h3>
                                 <span
                                     class="flex-shrink-0 bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
                                     {{ event.ticket_capacity || 0 }} tickets
@@ -137,7 +140,8 @@ const formatDate = (dateString) => {
                                         fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 5l7 7-7 7"></path>
+                                            d="M9 5l7 7-7 7">
+                                        </path>
                                     </svg>
                                 </div>
                             </div>

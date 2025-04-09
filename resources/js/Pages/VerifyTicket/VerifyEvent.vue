@@ -29,17 +29,20 @@ const selectEvent = (event) => {
 
 <template>
     <MainLayout>
+        <template #header>
+            <h1 class="text-2xl font-bold text-gray-800">Select Event to Scan Tickets</h1>
+        </template>
         <div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
             <div class="max-w-7xl mx-auto">
                 <!-- Header -->
-                <div class="text-center mb-12">
+                <!-- <div class="text-center mb-12">
                     <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
                         Select Event to Scan Tickets
                     </h1>
                     <p class="mt-3 text-xl text-gray-500">
                         Choose which event you're verifying tickets for
                     </p>
-                </div>
+                </div> -->
 
                 <!-- Events Grid -->
                 <div v-if="events.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

@@ -31,16 +31,13 @@ class TicketController extends Controller
 
         // dd($ticket->is_scanned);
         if (!$ticket) {
-            return response()->json(['valid' => false, 'message' => 'Invalid ticket']);
-            // return redirect()->route('verify-ticket')->with('error', 'Invalid Ticket');
+            // return response()->json(['valid' => false, 'message' => 'Invalid ticket']);
+            return back()->with('error', 'Invalid Ticket');
         }
 
         if ($ticket->is_scanned) {
-            return response()->json([
-                'valid' => false,
-                'message' => 'Ticket already scanned',
-                'scanned_at' => $ticket->scanned_at->format('Y-m-d H:i:s'),
-            ]);
+            return back()
+            ->with('error', 'Ticket already scanned at ' . $ticket->scanned_at->format('Y-m-d H:i:s'));
         }
 
         $ticket->update([
@@ -48,13 +45,9 @@ class TicketController extends Controller
             'scanned_at' => now(),
         ]);
 
-        return response()->json([
-            'valid' => true,
-            'message' => 'Ticket verified successfully',
-            'event' => $ticket->event->name,
-            'date_time' => $ticket->event->date_time->format('Y-m-d H:i:s'),
-            'venue' => $ticket->event->venue,
-        ]);
+        return back()
+            ->with('success', 'Ticket verified successfully for event "' . $ticket->event->name . '" at ' . $ticket->event->venue . ' on ' . $ticket->event->date_time->format('Y-m-d H:i:s'));
+
     }
 
     public function download(Event $event, Ticket $ticket)
@@ -116,6 +109,23 @@ public function printTicket(Ticket $ticket)
     $pdf = PDF::loadView('ticket', compact('ticket'));
     return $pdf->stream('ticket.pdf');
 }
+
+
+
+//Showing
+    public function eventTickets(){
+        $events = auth()->user()->events()->latest()->get();
+
+        return inertia('Tickets/Events', compact('events'));
+    }
+
+    public function showTickets(Event $event){
+        dd('test');
+        $tickets = $event->tickets();
+        $tickets->load('event');
+
+        return inertia('Tickets/Index');
+    }
 
 
 }

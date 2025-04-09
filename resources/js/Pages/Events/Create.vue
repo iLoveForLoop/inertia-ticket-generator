@@ -27,6 +27,9 @@ const submit = () => {
 <template>
 
     <MainLayout>
+        <template #header>
+            <h1 class="text-2xl font-bold text-gray-800">Create Event and Generate Tickets</h1>
+        </template>
         <div class="max-w-3xl mx-auto bg-white shadow-sm rounded-lg overflow-hidden">
             <form @submit.prevent="submit" class="p-6">
                 <div class="grid grid-cols-1 gap-6">
@@ -70,7 +73,7 @@ const submit = () => {
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         <p v-if="form.errors.ticket_capacity" class="mt-2 text-sm text-red-600">{{
                             form.errors.ticket_capacity
-                            }}</p>
+                        }}</p>
                     </div>
 
                     <!-- Image -->

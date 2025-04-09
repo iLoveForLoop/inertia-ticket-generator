@@ -35,10 +35,15 @@ Route::middleware('auth')->group(function () {
     //Choose event to scan
     Route::get('/events/scan', [EventController::class, 'scanEvent'])->name('scan-event');
 
+    //Tickets
+    Route::get('/events/tickets', [TicketController::class, 'eventTickets'])->name('events.tickets');
+    Route::get('/events/tickets/{event}', [TicketController::class, 'showTickets'])->name('tickets');
 
     //Events
     Route::resource('events', EventController::class)->except(['show']);
     Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
+
+
 
 
 
