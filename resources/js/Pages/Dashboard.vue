@@ -36,9 +36,18 @@
                                 <div v-for="event in events.data" :key="event.id"
                                     class="p-6 hover:bg-gray-50 transition-colors duration-150">
                                     <div class="flex items-start">
-                                        <div
-                                            class="flex-shrink-0 h-16 w-16 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-xl">
-                                            {{ event.name.charAt(0) }}
+                                        <div class="flex-shrink-0 h-12 w-12 rounded-md overflow-hidden mr-4">
+                                            <img v-if="event.image_path" :src="'/storage/' + event.image_path"
+                                                :alt="event.name" class="h-full w-full object-cover">
+                                            <div v-else
+                                                class="h-full w-full flex items-center justify-center bg-indigo-50">
+                                                <svg class="h-6 w-6 text-indigo-300" fill="none" viewBox="0 0 24 24"
+                                                    stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="1"
+                                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                </svg>
+                                            </div>
                                         </div>
                                         <div class="ml-4 flex-1">
                                             <div class="flex items-center justify-between">

@@ -74,7 +74,7 @@ public function bulkDownload(Event $event)
     $this->authorize('view', $event);
 
     $zip = new ZipArchive;
-    $zipFileName = storage_path("app/public/tickets-{$event->id}.zip");
+    $zipFileName = storage_path("app/public/{$event->name}-tickets.zip");
 
     if ($zip->open($zipFileName, ZipArchive::CREATE) === TRUE) {
         foreach ($event->tickets as $ticket) {
@@ -113,18 +113,34 @@ public function printTicket(Ticket $ticket)
 
 
 //Showing
-    public function eventTickets(){
-        $events = auth()->user()->events()->latest()->get();
+public function eventTickets()
+{
+    $events = auth()->user()->events()
+        ->latest()
+        ->withCount('tickets') // Add ticket count if you have tickets relationship
+        ->get();
 
-        return inertia('Tickets/Events', compact('events'));
-    }
+    return inertia('Tickets/Events', [
+        'events' => $events->map(function ($event) {
+            return [
+                'id' => $event->id,
+                'name' => $event->name,
+                'description' => $event->description,
+                'date_time' => $event->date_time,
+                'formatted_date' => $event->date_time->format('M d, Y h:i A'), // Formatted date
+                'venue' => $event->venue,
+                'ticket_capacity' => $event->ticket_capacity,
+                'tickets_count' => $event->tickets_count ?? 0, // From withCount
+                'image_url' => $event->image_path ? asset('storage/'.$event->image_path) : null,
+                'is_upcoming' => $event->date_time > now(),
+            ];
+        })
+    ]);
+}
 
     public function showTickets(Event $event){
-        dd('test');
-        $tickets = $event->tickets();
-        $tickets->load('event');
-
-        return inertia('Tickets/Index');
+        $event->load('tickets');
+        return inertia('Tickets/Index', compact('event'));
     }
 
 

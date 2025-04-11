@@ -100,7 +100,7 @@ const formatDate = (dateString) => {
                         <div class="p-6">
                             <div class="flex justify-between items-start">
                                 <h3 class="text-xl font-bold text-gray-900 truncate">{{ event.name || 'Untitled Event'
-                                }}</h3>
+                                    }}</h3>
                                 <span
                                     class="flex-shrink-0 bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
                                     {{ event.ticket_capacity || 0 }} tickets
