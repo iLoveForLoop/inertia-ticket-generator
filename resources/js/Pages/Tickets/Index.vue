@@ -32,6 +32,18 @@ const downloadTicket = (ticketId) => {
 const bulkDownloadTicket = () => {
     window.location.href = route('bulk-download', { event: props.event.id });
 };
+
+const formatDate = (dateString) => {
+    if (!dateString) return 'No date set';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+};
 </script>
 
 <template>
@@ -91,7 +103,7 @@ const bulkDownloadTicket = () => {
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ ticket.scanned_at ?? 'N/A' }}
+                                {{ formatDate(ticket.scanned_at) ?? 'N/A' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <button class="text-blue-600 hover:text-blue-900 mr-4"
