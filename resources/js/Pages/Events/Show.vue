@@ -2,10 +2,13 @@
 import MainLayout from '@/Layouts/MainLayout.vue';
 import { Link, router } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
+import EditForm from './Partials/EditForm.vue';
 
 const props = defineProps({
     event: Object
 });
+
+const isEditing = ref(false)
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -39,13 +42,21 @@ const deleteEvent = () => {
 };
 
 const editEvent = () => {
-    router.get(route('events.edit', props.event.id));
+    isEditing.value = true;
+    // router.get(route('events.edit', props.event.id));
 };
 </script>
 
 <template>
     <MainLayout>
         <iframe id="pdf-iframe" style="display: none;" @load="triggerPrint"></iframe>
+
+        <!-- Edit Form -->
+        <div v-if="isEditing" @click.self="isEditing = false"
+            class="bg-black bg-opacity-50 inset-0 z-40 w-screen h-screen fixed">
+            <EditForm v-if="isEditing" :event="event" @closeEdit="isEditing = false" />
+        </div>
+
 
         <!-- Hero section with full-width image and gradient overlay -->
         <div class="relative w-full">

@@ -57,7 +57,7 @@ const submit = () => {
             <h1 class="text-3xl font-bold text-gray-800">✏️ Edit Event Details</h1>
         </template>
 
-        <div class="max-w-4xl mx-auto mt-6 bg-white shadow-xl rounded-lg overflow-hidden border">
+        <div class="max-w-4xl mx-auto bg-white shadow-xl rounded-lg overflow-hidden border">
             <form @submit.prevent="submit" class="p-8 space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Event Name -->
