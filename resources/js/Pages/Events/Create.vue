@@ -88,15 +88,14 @@ const submit = () => {
                     <!-- Event Name -->
                     <div>
                         <label class="form-label">Event Name</label>
-                        <input v-model="form.name" type="text" class="form-input" placeholder="Ex: Summer Beats 2025" />
+                        <input v-model="form.name" type="text" class="form-input" />
                         <p v-if="form.errors.name" class="form-error">{{ form.errors.name }}</p>
                     </div>
 
                     <!-- Venue -->
                     <div>
                         <label class="form-label">Venue</label>
-                        <input v-model="form.venue" type="text" class="form-input"
-                            placeholder="Ex: SMX Convention Center" />
+                        <input v-model="form.venue" type="text" class="form-input" />
                         <p v-if="form.errors.venue" class="form-error">{{ form.errors.venue }}</p>
                     </div>
 

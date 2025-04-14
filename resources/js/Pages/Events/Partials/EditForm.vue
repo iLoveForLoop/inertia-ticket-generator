@@ -58,67 +58,89 @@ const submit = () => {
 
 <template>
 
-    <div
-        class="max-w-xl mx-auto mt-6 mb-6 flex justify-center items-center bg-white shadow-xl rounded-lg overflow-hidden border fixed inset-0 z-50">
-        <form @submit.prevent="submit" class="p-8 ">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="bg-white rounded-xl shadow-sm w-full max-w-7xl mx-auto overflow-hidden">
+        <form @submit.prevent="submit" class="p-8">
+            <div class="space-y-6 flex flex-col md:flex-row">
                 <!-- Event Name -->
+
                 <div>
-                    <label class="form-label">Event Name</label>
-                    <input v-model="form.name" type="text" class="form-input" placeholder="Event title" />
-                    <p v-if="form.errors.name" class="form-error">{{ form.errors.name }}</p>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Event Name</label>
+                        <input v-model="form.name" type="text" class="form-input" placeholder="Enter event title" />
+                        <p v-if="form.errors.name" class="form-error">{{ form.errors.name }}</p>
+                    </div>
+
+                    <!-- Grid for Venue and Date/Time -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Venue -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Venue</label>
+                            <input v-model="form.venue" type="text" class="form-input"
+                                placeholder="Where is the event?" />
+                            <p v-if="form.errors.venue" class="form-error">{{ form.errors.venue }}</p>
+                        </div>
+
+                        <!-- Date & Time -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Date & Time</label>
+                            <FlatPickr v-model="form.date_time" :config="dateTimeConfig" class="form-input" />
+                            <p v-if="form.errors.date_time" class="form-error">{{ form.errors.date_time }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Ticket Capacity -->
+                    <div class="w-1/3 min-w-[150px]">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Ticket Capacity</label>
+                        <input v-model="form.ticket_capacity" type="number" min="1" class="form-input" />
+                        <p v-if="form.errors.ticket_capacity" class="form-error">{{ form.errors.ticket_capacity }}</p>
+                    </div>
+
+                    <!-- Description -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                        <textarea v-model="form.description" rows="4" class="form-input resize-none"
+                            placeholder="Tell people about your event..."></textarea>
+                        <p v-if="form.errors.description" class="form-error">{{ form.errors.description }}</p>
+                    </div>
                 </div>
 
-                <!-- Venue -->
+
+
+                <!-- Image Upload with Safe Container -->
                 <div>
-                    <label class="form-label">Venue</label>
-                    <input v-model="form.venue" type="text" class="form-input" placeholder="Event venue" />
-                    <p v-if="form.errors.venue" class="form-error">{{ form.errors.venue }}</p>
-                </div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Event Banner</label>
+                    <div class="mt-1 flex items-center gap-4">
+                        <label class="cursor-pointer">
+                            <span
+                                class="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                Select Image
+                            </span>
+                            <input @change="handleImageChange" type="file" accept="image/*" class="hidden" />
+                        </label>
+                        <span class="text-sm text-gray-500">JPEG, PNG (Max 5MB)</span>
+                    </div>
+                    <p v-if="form.errors.image" class="form-error">{{ form.errors.image }}</p>
 
-                <!-- Date & Time -->
-                <div>
-                    <label class="form-label">Date & Time</label>
-                    <FlatPickr v-model="form.date_time" :config="dateTimeConfig" class="form-input" />
-                    <p v-if="form.errors.date_time" class="form-error">{{ form.errors.date_time }}</p>
-                </div>
-
-                <!-- Ticket Capacity -->
-                <div>
-                    <label class="form-label">Ticket Capacity</label>
-                    <input v-model="form.ticket_capacity" type="number" min="1" class="form-input" />
-                    <p v-if="form.errors.ticket_capacity" class="form-error">{{ form.errors.ticket_capacity }}</p>
-                </div>
-            </div>
-
-            <!-- Description -->
-            <div>
-                <label class="form-label">Description</label>
-                <textarea v-model="form.description" rows="4" class="form-input resize-none"
-                    placeholder="Event details..."></textarea>
-                <p v-if="form.errors.description" class="form-error">{{ form.errors.description }}</p>
-            </div>
-
-            <!-- Image Upload -->
-            <div>
-                <label class="form-label">Event Banner</label>
-                <input @change="handleImageChange" type="file" accept="image/*" class="file-input" />
-                <p v-if="form.errors.image" class="form-error">{{ form.errors.image }}</p>
-                <div v-if="imagePreview" class="mt-4">
-                    <img :src="imagePreview" alt="Image Preview" class="w-full max-w-md rounded shadow" />
+                    <!-- Safe Image Preview Container -->
+                    <div v-if="imagePreview"
+                        class="mt-4 w-full overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
+                        <img :src="imagePreview" alt="Event banner preview"
+                            class="w-full h-auto object-contain max-h-64" />
+                    </div>
                 </div>
             </div>
 
             <!-- Action Buttons -->
-            <div class="flex justify-between items-center pt-4 border-t">
+            <div class="flex justify-between items-center pt-6 mt-8 border-t border-gray-200">
                 <Link :href="route('events.show', props.event.id)"
-                    class="px-4 py-2 text-sm rounded-md border hover:bg-gray-100 transition-all text-gray-700">
+                    class="px-4 py-2 text-sm font-medium rounded-md border border-gray-300 shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all">
                 ← Cancel
                 </Link>
                 <button type="submit"
-                    class="px-6 py-2 bg-indigo-600 text-white rounded-md shadow hover:bg-indigo-700 transition-all"
+                    class="px-6 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all"
                     :disabled="form.processing">
-                    💾 Update Event
+                    <span v-if="form.processing">Updating...</span>
+                    <span v-else>💾 Update Event</span>
                 </button>
             </div>
         </form>
@@ -126,22 +148,21 @@ const submit = () => {
 
 
 
+
+
+
 </template>
 
 <style scoped>
-.form-label {
-    @apply block text-sm font-medium text-gray-700 mb-1;
-}
-
 .form-input {
-    @apply w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500;
-}
-
-.file-input {
-    @apply block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100;
+    @apply block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm;
 }
 
 .form-error {
     @apply mt-1 text-sm text-red-600;
+}
+
+.file-input {
+    @apply block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100;
 }
 </style>

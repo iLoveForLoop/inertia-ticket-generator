@@ -52,10 +52,12 @@ const editEvent = () => {
         <iframe id="pdf-iframe" style="display: none;" @load="triggerPrint"></iframe>
 
         <!-- Edit Form -->
+
         <div v-if="isEditing" @click.self="isEditing = false"
-            class="bg-black bg-opacity-50 inset-0 z-40 w-screen h-screen fixed">
-            <EditForm v-if="isEditing" :event="event" @closeEdit="isEditing = false" />
+            class="bg-black bg-opacity-50 inset-0 z-40 w-screen h-screen fixed flex justify-center items center py-10">
+            <EditForm :event="event" @closeEdit="isEditing = false" />
         </div>
+
 
 
         <!-- Hero section with full-width image and gradient overlay -->
@@ -192,7 +194,7 @@ const editEvent = () => {
 
                             <!-- Action buttons -->
                             <div class="mt-8 flex flex-col gap-3">
-                                <button
+                                <button @click="router.get(route('tickets', event.id))"
                                     class="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-3 px-4 rounded-lg font-medium hover:from-blue-700 hover:to-indigo-800 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center pulse ">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
