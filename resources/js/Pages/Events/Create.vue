@@ -81,67 +81,147 @@ const submit = () => {
         <Loader v-if="form.processing" />
 
 
-        <div class="max-w-4xl mx-auto mt-6 bg-white shadow-xl rounded-lg overflow-hidden border">
-            <form @submit.prevent="submit" class="p-8 space-y-6">
-                <!-- Grid layout -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Event Name -->
-                    <div>
-                        <label class="form-label">Event Name</label>
-                        <input v-model="form.name" type="text" class="form-input" />
-                        <p v-if="form.errors.name" class="form-error">{{ form.errors.name }}</p>
+        <div class="max-w-4xl mx-auto mt-6 bg-white shadow-md rounded-lg overflow-hidden">
+            <form @submit.prevent="submit" class="p-8 space-y-8">
+                <!-- Two Column Layout -->
+                <div class="flex flex-col md:flex-row justify-between gap-8">
+                    <!-- Left Column: Form Fields -->
+                    <div class="flex-1 space-y-6">
+                        <!-- Grid layout for main fields -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Event Name -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Event Name</label>
+                                <input v-model="form.name" type="text"
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" />
+                                <p v-if="form.errors.name" class="mt-1 text-sm text-red-600">{{ form.errors.name }}</p>
+                            </div>
+
+                            <!-- Venue -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Venue</label>
+                                <input v-model="form.venue" type="text"
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" />
+                                <p v-if="form.errors.venue" class="mt-1 text-sm text-red-600">{{ form.errors.venue }}
+                                </p>
+                            </div>
+
+                            <!-- Date & Time -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Date & Time</label>
+                                <FlatPickr v-model="form.date_time" :config="dateTimeConfig"
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" />
+                                <p v-if="form.errors.date_time" class="mt-1 text-sm text-red-600">{{
+                                    form.errors.date_time }}
+                                </p>
+                            </div>
+
+                            <!-- Ticket Capacity -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Ticket Capacity</label>
+                                <input v-model="form.ticket_capacity" type="number" min="1"
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" />
+                                <p v-if="form.errors.ticket_capacity" class="mt-1 text-sm text-red-600">{{
+                                    form.errors.ticket_capacity }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <textarea v-model="form.description" rows="4"
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all resize-none"
+                                placeholder="Event details..."></textarea>
+                            <p v-if="form.errors.description" class="mt-1 text-sm text-red-600">{{
+                                form.errors.description }}
+                            </p>
+                        </div>
                     </div>
 
-                    <!-- Venue -->
-                    <div>
-                        <label class="form-label">Venue</label>
-                        <input v-model="form.venue" type="text" class="form-input" />
-                        <p v-if="form.errors.venue" class="form-error">{{ form.errors.venue }}</p>
-                    </div>
+                    <!-- Right Column: Image Upload -->
+                    <div class="md:w-1/3 space-y-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Event Banner</label>
 
-                    <!-- Date & Time -->
-                    <div>
-                        <label class="form-label">Date & Time</label>
-                        <FlatPickr v-model="form.date_time" :config="dateTimeConfig" class="form-input" />
-                        <p v-if="form.errors.date_time" class="form-error">{{ form.errors.date_time }}</p>
-                    </div>
+                        <!-- Image Upload Area -->
+                        <div
+                            class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-indigo-500 transition-all">
+                            <div v-if="!imagePreview" class="space-y-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <p class="text-sm text-gray-500">JPEG, PNG (Max 5MB)</p>
+                            </div>
 
-                    <!-- Ticket Capacity -->
-                    <div>
-                        <label class="form-label">Ticket Capacity</label>
-                        <input v-model="form.ticket_capacity" type="number" min="1" class="form-input" />
-                        <p v-if="form.errors.ticket_capacity" class="form-error">{{ form.errors.ticket_capacity }}</p>
+                            <!-- Image Preview -->
+                            <div v-if="imagePreview" class="relative">
+                                <img :src="imagePreview" alt="Event banner preview"
+                                    class="w-full h-auto object-contain max-h-64 rounded-md" />
+                                <button type="button" @click="removeImage"
+                                    class="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md hover:bg-gray-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Hidden File Input -->
+                            <input @change="handleImageChange" type="file" accept="image/*" id="image-upload"
+                                class="hidden" />
+                        </div>
+
+                        <!-- Upload Button -->
+                        <label for="image-upload" class="mt-4 inline-block cursor-pointer w-full">
+                            <span
+                                class="flex items-center justify-center px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4" />
+                                </svg>
+                                Select Image
+                            </span>
+                        </label>
+                        <p v-if="form.errors.image" class="mt-1 text-sm text-red-600">{{ form.errors.image }}</p>
                     </div>
                 </div>
 
-                <!-- Description -->
-                <div>
-                    <label class="form-label">Description</label>
-                    <textarea v-model="form.description" rows="4" class="form-input resize-none"
-                        placeholder="Event details..."></textarea>
-                    <p v-if="form.errors.description" class="form-error">{{ form.errors.description }}</p>
-                </div>
-
-                <!-- Image Upload -->
-                <div>
-                    <label class="form-label">Event Banner</label>
-                    <input @change="handleImageChange" type="file" accept="image/*" class="file-input" />
-                    <p v-if="form.errors.image" class="form-error">{{ form.errors.image }}</p>
-                    <div v-if="imagePreview" class="mt-4">
-                        <img :src="imagePreview" alt="Preview" class="w-full max-w-md rounded shadow" />
-                    </div>
-                </div>
-
-                <!-- Buttons -->
-                <div class="flex justify-between items-center pt-4 border-t">
+                <!-- Action Buttons -->
+                <div class="flex justify-between items-center pt-8 mt-8 border-t border-gray-200">
                     <Link :href="route('events.index')"
-                        class="px-4 py-2 text-sm rounded-md border hover:bg-gray-100 transition-all text-gray-700">
-                    ← Cancel
+                        class="px-5 py-2.5 text-sm font-medium rounded-lg border border-gray-300 shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                    Cancel
                     </Link>
                     <button type="submit"
-                        class="px-6 py-2 bg-indigo-600 text-white rounded-md shadow hover:bg-indigo-700 transition-all"
+                        class="px-6 py-2.5 bg-indigo-600 text-white text-sm font-medium rounded-lg shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all flex items-center"
                         :disabled="form.processing">
-                        ➕ Create Event
+                        <span v-if="form.processing" class="flex items-center">
+                            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4">
+                                </circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                            Creating...
+                        </span>
+                        <span v-else class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 4v16m8-8H4" />
+                            </svg>
+                            Create Event
+                        </span>
                     </button>
                 </div>
             </form>

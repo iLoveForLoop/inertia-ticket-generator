@@ -90,7 +90,6 @@ class EventController extends Controller
             'description' => 'nullable|string',
             'date_time' => 'required|date',
             'venue' => 'required|string|max:255',
-            'ticket_capacity' => 'required|integer|min:1',
             'image' => 'nullable|image|max:2048'
         ]);
 

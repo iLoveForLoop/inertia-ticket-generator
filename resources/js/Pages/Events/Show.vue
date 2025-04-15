@@ -45,6 +45,8 @@ const editEvent = () => {
     isEditing.value = true;
     // router.get(route('events.edit', props.event.id));
 };
+
+
 </script>
 
 <template>
@@ -54,8 +56,11 @@ const editEvent = () => {
         <!-- Edit Form -->
 
         <div v-if="isEditing" @click.self="isEditing = false"
-            class="bg-black bg-opacity-50 inset-0 z-40 w-screen h-screen fixed flex justify-center items center py-10">
-            <EditForm :event="event" @closeEdit="isEditing = false" />
+            class="bg-black bg-opacity-50 inset-0 z-40 w-screen h-screen fixed flex justify-center items-center">
+            <Transition name="form-fade" appear>
+                <EditForm :event="event" @closeEdit="isEditing = false" />
+            </Transition>
+
         </div>
 
 
@@ -230,6 +235,8 @@ const editEvent = () => {
             </div>
         </div>
     </MainLayout>
+
+
 </template>
 
 <style>
@@ -248,5 +255,66 @@ const editEvent = () => {
 
 .pulse {
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+
+/* Main form transition */
+.form-fade-enter-active,
+.form-fade-leave-active {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.form-fade-enter-from,
+.form-fade-leave-to {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+/* Staggered children transitions */
+.staggered-fade-enter-active {
+    transition: all 0.4s ease;
+    transition-delay: calc(0.15s * var(--i));
+}
+
+.staggered-fade-leave-active {
+    transition: all 0.2s ease;
+}
+
+.staggered-fade-enter-from,
+.staggered-fade-leave-to {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Right column slide-in */
+.slide-fade-enter-active {
+    transition: all 0.6s ease;
+    transition-delay: 0.3s;
+}
+
+.slide-fade-leave-active {
+    transition: all 0.3s ease;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
+}
+
+/* Buttons fade-up */
+.fade-up-enter-active {
+    transition: all 0.5s ease;
+    transition-delay: 0.6s;
+}
+
+.fade-up-leave-active {
+    transition: all 0.3s ease;
+}
+
+.fade-up-enter-from,
+.fade-up-leave-to {
+    opacity: 0;
+    transform: translateY(20px);
 }
 </style>
