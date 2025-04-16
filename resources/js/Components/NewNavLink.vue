@@ -1,7 +1,7 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
 
-defineProps({
+const props = defineProps({
     href: {
         type: String,
         required: true,
@@ -10,7 +10,13 @@ defineProps({
         type: Boolean,
         default: false,
     },
+    isCollapsed: {
+        type: Boolean,
+        default: false
+    }
 });
+
+console.log('is collapsed: ', props.isCollapsed)
 </script>
 
 <template>
@@ -18,11 +24,13 @@ defineProps({
         active
             ? 'bg-indigo-50 text-indigo-700'
             : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-        'group flex items-center px-3 py-2 text-sm font-medium rounded-md'
+        isCollapsed ? 'flex flex-col' : 'flex',
+        'groups items-center px-3 py-2 text-sm font-medium rounded-md'
     ]">
     <span :class="[
         active ? 'text-indigo-500' : 'text-gray-400 group-hover:text-gray-500',
-        'flex-shrink-0 h-6 w-6 mr-3'
+        isCollapsed ? '' : 'mr-3',
+        'flex-shrink-0 h-6 w-6 '
     ]" aria-hidden="true">
         <slot name="icon" />
     </span>

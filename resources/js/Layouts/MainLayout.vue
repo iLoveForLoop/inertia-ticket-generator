@@ -3,6 +3,9 @@ import { ref } from 'vue';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 import { ChevronDownIcon, PencilSquareIcon, CalendarDaysIcon, HomeIcon, Bars3Icon } from '@heroicons/vue/20/solid';
 import { TicketIcon, QrCodeIcon, ViewfinderCircleIcon } from '@heroicons/vue/24/outline';
+import { useUIStore } from '@/stores/ui';
+
+const ui = ref(useUIStore())
 
 import NewNavLink from '@/Components/NewNavLink.vue';
 import { Link } from '@inertiajs/vue3';
@@ -12,59 +15,70 @@ const mobileMenuOpen = ref(false);
 const closeMobileMenu = () => {
     mobileMenuOpen.value = false;
 };
+
+
 </script>
 
 <template>
     <div class="min-h-screen bg-gray-500 flex overflow-hidden max-h-screen">
         <div class="hidden md:flex md:flex-shrink-0 max-h-screen">
-            <div class="flex flex-col w-64 border-r border-gray-200 bg-white">
+            <div :class="[ui.sidebarCollapsed ? 'w-20' : 'w-64', 'flex flex-col border-r border-gray-200 bg-white']">
                 <!-- Logo/Brand -->
                 <div class="flex items-center h-16 px-4 border-b border-gray-200">
                     <div class="flex items-center">
-                        <svg class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <!-- <svg class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
                         </svg>
-                        <span class="ml-2 text-xl font-bold text-gray-900">TickIt</span>
+                        <span class="ml-2 text-xl font-bold text-gray-900">TickIt</span> -->
                     </div>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="flex-1 flex flex-col overflow-y-auto">
                     <nav class="flex-1 px-2 py-4 space-y-1">
-                        <NewNavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                        <NewNavLink :href="route('dashboard')" :active="route().current('dashboard')"
+                            :isCollapsed="ui.sidebarCollapsed">
                             <template #icon>
                                 <HomeIcon class="h-5 w-5" />
                             </template>
-                            Dashboard
+                            <span v-if="!ui.sidebarCollapsed"> Dashboard</span>
+
                         </NewNavLink>
 
-                        <NewNavLink :href="route('events.create')" :active="route().current('events.create')">
+                        <NewNavLink :href="route('events.create')" :active="route().current('events.create')"
+                            :isCollapsed="ui.sidebarCollapsed">
                             <template #icon>
                                 <PencilSquareIcon class="h-5 w-5" />
                             </template>
-                            Create Events & Tickets
+                            <span v-if="!ui.sidebarCollapsed"> Create Events & Tickets</span>
+
                         </NewNavLink>
 
-                        <NewNavLink :href="route('events.index')" :active="route().current('events.index')">
+                        <NewNavLink :href="route('events.index')" :active="route().current('events.index')"
+                            :isCollapsed="ui.sidebarCollapsed">
                             <template #icon>
                                 <CalendarDaysIcon class="h-5 w-5" />
                             </template>
-                            Events
+                            <span v-if="!ui.sidebarCollapsed">Events </span>
+                            <!-- Events -->
                         </NewNavLink>
 
-                        <NewNavLink :href="route('events.tickets')" :active="route().current('events.tickets')">
+                        <NewNavLink :href="route('events.tickets')" :active="route().current('events.tickets')"
+                            :isCollapsed="ui.sidebarCollapsed">
                             <template #icon>
                                 <TicketIcon class="h-5 w-5" />
                             </template>
-                            Tickets
+                            <span v-if="!ui.sidebarCollapsed">Tickets </span>
+                            <!-- Tickets -->
                         </NewNavLink>
 
-                        <NewNavLink :href="route('scan-event')" :active="route().current('scan-event')">
+                        <NewNavLink :href="route('scan-event')" :active="route().current('scan-event')"
+                            :isCollapsed="ui.sidebarCollapsed">
                             <template #icon>
                                 <ViewfinderCircleIcon class="h-5 w-5" />
                             </template>
-                            Verify Tickets
+                            <span v-if="!ui.sidebarCollapsed">Verify Tickets </span>
                         </NewNavLink>
                     </nav>
 
@@ -73,9 +87,10 @@ const closeMobileMenu = () => {
                         <div class="flex items-center">
                             <div class="ml-3">
                                 <p class="text-sm font-medium text-gray-700">{{ $page.props.auth.user.name }}</p>
-                                <Link :href="route('profile.edit')"
+                                <!-- <Link :href="route('profile.edit')"
                                     class="text-xs font-medium text-indigo-600 hover:text-indigo-500">View
-                                profile</Link>
+                                profile</Link> -->
+                                <button @click="ui.toggleSidebar"> <- </button>
                             </div>
                         </div>
                     </div>
