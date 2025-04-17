@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 import { ChevronDownIcon, PencilSquareIcon, CalendarDaysIcon, HomeIcon, Bars3Icon } from '@heroicons/vue/20/solid';
-import { TicketIcon, QrCodeIcon, ViewfinderCircleIcon } from '@heroicons/vue/24/outline';
+import { TicketIcon, QrCodeIcon, ViewfinderCircleIcon, ChevronDoubleLeftIcon } from '@heroicons/vue/24/outline';
 import { useUIStore } from '@/stores/ui';
 
 const ui = ref(useUIStore())
@@ -16,33 +16,36 @@ const closeMobileMenu = () => {
     mobileMenuOpen.value = false;
 };
 
-
 </script>
 
 <template>
-    <div class="min-h-screen bg-gray-500 flex overflow-hidden max-h-screen">
-        <div class="hidden md:flex md:flex-shrink-0 max-h-screen">
-            <div :class="[ui.sidebarCollapsed ? 'w-20' : 'w-64', 'flex flex-col border-r border-gray-200 bg-white']">
+    <div class="min-h-screen  flex overflow-hidden max-h-screen bg-slate-200 md:py-5 md:px-8">
+
+        <!-- Sidebar start -->
+        <div class="hidden md:flex md:flex-shrink-0 max-h-screen bg-slate-700 rounded-xl">
+            <div :class="[ui.sidebarCollapsed ? 'w-20' : 'w-64', 'flex flex-col   transition-all duration-300']">
                 <!-- Logo/Brand -->
-                <div class="flex items-center h-16 px-4 border-b border-gray-200">
-                    <div class="flex items-center">
-                        <!-- <svg class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
-                        </svg>
-                        <span class="ml-2 text-xl font-bold text-gray-900">TickIt</span> -->
+                <div :class="['flex items-center  h-16 px-3 ', ui.sidebarCollapsed ? 'justify-center' : '']">
+                    <div class="flex items-center ">
+                        <img src="/logo/tickit5.png" alt="TickIt Logo" class="h-[2.6em] w-[2.6em]">
+                        <span v-if="!ui.sidebarCollapsed" class="text-xl font-bold text-gray-50">TickIt</span>
                     </div>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="flex-1 flex flex-col overflow-y-auto">
+                <div class="flex-1 flex flex-col overflow-y-auto no-scrollbar">
                     <nav class="flex-1 px-2 py-4 space-y-1">
                         <NewNavLink :href="route('dashboard')" :active="route().current('dashboard')"
                             :isCollapsed="ui.sidebarCollapsed">
                             <template #icon>
                                 <HomeIcon class="h-5 w-5" />
                             </template>
-                            <span v-if="!ui.sidebarCollapsed"> Dashboard</span>
+
+                            <!-- <Transition name="reveal"> -->
+                            <span class="text-gray-400" v-if="!ui.sidebarCollapsed">
+                                Dashboard</span>
+                            <!-- </Transition> -->
+
 
                         </NewNavLink>
 
@@ -51,7 +54,11 @@ const closeMobileMenu = () => {
                             <template #icon>
                                 <PencilSquareIcon class="h-5 w-5" />
                             </template>
-                            <span v-if="!ui.sidebarCollapsed"> Create Events & Tickets</span>
+                            <!-- <Transition name="reveal"> -->
+                            <span class="text-gray-400" v-if="!ui.sidebarCollapsed">
+                                Create&nbsp;Events&nbsp;&&nbsp;Tickets</span>
+                            <!-- </Transition> -->
+
 
                         </NewNavLink>
 
@@ -60,7 +67,7 @@ const closeMobileMenu = () => {
                             <template #icon>
                                 <CalendarDaysIcon class="h-5 w-5" />
                             </template>
-                            <span v-if="!ui.sidebarCollapsed">Events </span>
+                            <span class="text-gray-400" v-if="!ui.sidebarCollapsed">Events </span>
                             <!-- Events -->
                         </NewNavLink>
 
@@ -69,7 +76,7 @@ const closeMobileMenu = () => {
                             <template #icon>
                                 <TicketIcon class="h-5 w-5" />
                             </template>
-                            <span v-if="!ui.sidebarCollapsed">Tickets </span>
+                            <span class="text-gray-400" v-if="!ui.sidebarCollapsed">Tickets </span>
                             <!-- Tickets -->
                         </NewNavLink>
 
@@ -78,35 +85,27 @@ const closeMobileMenu = () => {
                             <template #icon>
                                 <ViewfinderCircleIcon class="h-5 w-5" />
                             </template>
-                            <span v-if="!ui.sidebarCollapsed">Verify Tickets </span>
+                            <span class="text-gray-400" v-if="!ui.sidebarCollapsed">Verify&nbsp;Tickets </span>
                         </NewNavLink>
                     </nav>
 
                     <!-- User Profile Section -->
-                    <div class="px-4 py-4 border-t border-gray-200">
-                        <div class="flex items-center">
-                            <div class="ml-3">
-                                <p class="text-sm font-medium text-gray-700">{{ $page.props.auth.user.name }}</p>
-                                <!-- <Link :href="route('profile.edit')"
-                                    class="text-xs font-medium text-indigo-600 hover:text-indigo-500">View
-                                profile</Link> -->
-                                <button @click="ui.toggleSidebar"> <- </button>
+                    <div class="px-4 py-4  ">
+                        <div class="flex justify-center items-center ">
+
+                            <div class="flex items-center ">
+                                <button class="text-gray-400 rounded-full hover:bg-gray-50 p-2 "
+                                    @click="ui.toggleSidebar">
+                                    <ChevronDoubleLeftIcon
+                                        :class="[ui.sidebarCollapsed ? 'rotate-180' : '', 'h-5 w-5 transition-all duration-700']" />
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Mobile menu button -->
-        <!-- <div class="md:hidden fixed z-50 top-4 left-4">
-            <button type="button"
-                class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                @click="mobileMenuOpen = true">
-                <span class="sr-only">Open sidebar</span>
-                <Bars3Icon class="h-6 w-6" />
-            </button>
-        </div> -->
+        <!-- Sidebar end -->
 
         <!-- Mobile sidebar overlay and menu -->
         <transition enter-active-class="transition-opacity ease-linear duration-300" enter-from-class="opacity-0"
@@ -211,54 +210,9 @@ const closeMobileMenu = () => {
         </transition>
 
         <!-- Main Content Area -->
-
-        <!-- Top Navigation -->
-        <!-- <header class="bg-blue-200 shadow-sm">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-                    <h1 class="text-lg font-semibold text-gray-900">
-                        <slot name="header" />
-                    </h1>
-
-                    <div class="flex items-center space-x-4">
-
-                        <Menu as="div" class="relative">
-                            <MenuButton class="flex items-center space-x-2">
-                                <span class="sr-only">Open user menu</span>
-                                <span class="hidden md:inline text-sm font-medium text-gray-700">
-                                    {{ $page.props.auth.user.name }}
-                                </span>
-                                <ChevronDownIcon class="h-4 w-4 text-gray-400" />
-                            </MenuButton>
-                            <transition enter-active-class="transition ease-out duration-100"
-                                enter-from-class="transform opacity-0 scale-95"
-                                enter-to-class="transform opacity-100 scale-100"
-                                leave-active-class="transition ease-in duration-75"
-                                leave-from-class="transform opacity-100 scale-100"
-                                leave-to-class="transform opacity-0 scale-95">
-                                <MenuItems
-                                    class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                    <MenuItem v-slot="{ active }">
-                                    <Link :href="route('profile.edit')"
-                                        :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
-                                    Your Profile</Link>
-                                    </MenuItem>
-                                    <MenuItem v-slot="{ active }">
-                                    <Link :href="route('logout')" method="post" as="button"
-                                        :class="[active ? 'bg-gray-100' : '', 'block w-full text-left px-4 py-2 text-sm text-gray-700']">
-                                    Sign out
-                                    </Link>
-                                    </MenuItem>
-                                </MenuItems>
-                            </transition>
-                        </Menu>
-                    </div>
-                </div>
-            </header> -->
-
-        <!-- Main Content Area -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Top Navigation -->
-            <header class="bg-blue-200 shadow-sm">
+            <header class="">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
                     <div class="md:hidden">
                         <button type="button"
@@ -268,7 +222,7 @@ const closeMobileMenu = () => {
                             <Bars3Icon class="h-6 w-6" />
                         </button>
                     </div>
-                    <h1 class="text-lg font-semibold text-gray-900">
+                    <h1 class="text-lg font-semibold text-gray-900 ">
                         <slot name="header" />
                     </h1>
 
@@ -281,7 +235,7 @@ const closeMobileMenu = () => {
                                     :alt="$page.props.auth.user.name" /> -->
                                 <span class="hidden md:inline text-sm font-medium text-gray-700">{{
                                     $page.props.auth.user.name
-                                }}</span>
+                                    }}</span>
                                 <ChevronDownIcon class="h-4 w-4 text-gray-400" />
                             </MenuButton>
                             <transition enter-active-class="transition ease-out duration-100"
@@ -312,15 +266,9 @@ const closeMobileMenu = () => {
             </header>
 
             <!-- Main content -->
-            <main class="flex-1 overflow-y-auto bg-gray-50">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    <!-- Flash messages -->
-                    <!-- <div v-if="$page.props.flash?.success" class="mb-4">
-                            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
-                                role="alert">
-                                <span class="block sm:inline">{{ $page.props.flash?.success }}</span>
-                            </div>
-                        </div> -->
+            <main class="flex-1 overflow-y-auto  no-scrollbar">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2  ">
+
 
                     <slot />
                 </div>
@@ -329,3 +277,23 @@ const closeMobileMenu = () => {
 
     </div>
 </template>
+
+<style>
+.reveal-enter-active {
+    @apply transition-all duration-100 ease-in-out delay-[500ms];
+}
+
+.reveal-leave-active {
+    @apply transition-all duration-0 ease-in-out;
+}
+
+.reveal-enter-from,
+.reveal-leave-to {
+    @apply opacity-0 translate-x-2;
+}
+
+.reveal-enter-to,
+.reveal-leave-from {
+    @apply opacity-100 translate-x-0;
+}
+</style>

@@ -7,4 +7,26 @@
     src: url('/fonts/Poppins-Regular.ttf');
 }
 
+/* Fade */
 
+.fade-enter-active,
+.fade-leave-active {
+  @apply transition-opacity;
+}
+.fade-enter-from,
+.fade-leave-to {
+  @apply opacity-0;
+}
+.fade-enter-to,
+.fade-leave-from {
+  @apply opacity-100;
+}
+
+.no-scrollbar {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+  }

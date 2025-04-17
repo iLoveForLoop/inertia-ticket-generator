@@ -16,7 +16,9 @@ const props = defineProps({
     }
 });
 
-console.log('is collapsed: ', props.isCollapsed)
+// console.log('is collapsed: ', props.isCollapsed)
+
+
 </script>
 
 <template>
@@ -30,7 +32,7 @@ console.log('is collapsed: ', props.isCollapsed)
     <span :class="[
         active ? 'text-indigo-500' : 'text-gray-400 group-hover:text-gray-500',
         isCollapsed ? '' : 'mr-3',
-        'flex-shrink-0 h-6 w-6 '
+        'flex-shrink-0 h-6 w-6 flex justify-center'
     ]" aria-hidden="true">
         <slot name="icon" />
     </span>
