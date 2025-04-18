@@ -4,6 +4,7 @@ import StatCard from '@/Components/StatCard.vue';
 import Pagination from '@/Components/Pagination.vue';
 import { Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import { UserCircleIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
     events: Object,
@@ -38,7 +39,7 @@ const greeting = computed(() => {
     } else if (hour >= 12 && hour < 18) {
         return 'Good Afternoon';
     } else {
-        return 'Good evening';
+        return 'Good Evening';
     }
 });
 </script>
@@ -76,11 +77,10 @@ const greeting = computed(() => {
                     </div> -->
 
                     <!-- Empty state when no events are available -->
-                    <div v-if="!events.data || events.data.length === 0"
-                        class="bg-white shadow rounded-lg overflow-hidden">
+                    <div v-if="!events.data || events.data.length === 0" class=" shadow-xl rounded-lg overflow-hidden">
                         <div class="p-12 text-center">
                             <div class="mx-auto flex items-center justify-center h-24 w-24 rounded-full bg-blue-50">
-                                <svg class="h-16 w-16 text-blue-400" fill="none" viewBox="0 0 24 24"
+                                <svg class="h-16 w-16 text-slate-600" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
                                         d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -94,7 +94,7 @@ const greeting = computed(() => {
                             </p>
                             <div class="mt-6">
                                 <Link :href="route('events.create')"
-                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-slate-700 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400">
                                 Create your first event
                                 <svg class="ml-2 -mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -109,7 +109,7 @@ const greeting = computed(() => {
                     <!-- Grid of vertical cards (only shown when there are events) -->
                     <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                         <div v-for="event in events.data" :key="event.id"
-                            class="bg-white shadow rounded-lg overflow-hidden transition-all duration-200 hover:shadow-lg flex flex-col">
+                            class="bg-white shadow-2xl rounded-lg overflow-hidden transition-all duration-200 hover:shadow-3xl flex flex-col">
                             <!-- Event Image (top portion) -->
                             <div class="relative h-48 w-full bg-gray-100">
                                 <img v-if="event.image_path" :src="'/storage/' + event.image_path" :alt="event.name"
@@ -170,7 +170,7 @@ const greeting = computed(() => {
                                         <div>
                                             <span class="text-xs font-medium text-gray-900">{{
                                                 event.scanned_tickets_count
-                                            }}</span>
+                                                }}</span>
                                             <span class="text-xs text-gray-500"> / {{ event.tickets_count }} tickets
                                                 scanned</span>
                                         </div>
@@ -202,15 +202,15 @@ const greeting = computed(() => {
 
                 <!-- Recent Activity (narrower column) -->
                 <div class="lg:col-span-1">
-                    <div class="rounded-lg overflow-hidden sticky top-6 bg-slate-700 text-gray-50 shadow-xl">
+                    <div class="rounded-lg overflow-hidden sticky top-6 bg-slate-200 text-gray-50 shadow-2xl">
                         <div class="px-6 py-4 ">
-                            <h2 class="text-lg font-medium text-gray-50">Recent Scans</h2>
+                            <h2 class="text-lg font-medium text-gray-600">Recent Scans</h2>
                         </div>
                         <div class="">
                             <div v-if="stats.recent_activity.length === 0" class="p-6 text-center text-gray-500">
                                 <div
-                                    class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-gray-100 mb-4">
-                                    <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24"
+                                    class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-gray-200 mb-4">
+                                    <svg class="h-6 w-6 text-slate-700" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -219,23 +219,23 @@ const greeting = computed(() => {
                                 <p>No recent ticket scans</p>
                                 <p class="mt-1 text-xs">Scan activity will appear here</p>
                             </div>
-                            <div v-for="ticket in stats.recent_activity" :key="ticket.id" class="p-6 md:py-2 md:px-6 ">
-                                <div class="flex items-start ">
+                            <div v-for="ticket in stats.recent_activity" :key="ticket.id" class="p-6 md:py-0 md:px-6 ">
+                                <div class="flex items-start truncate ">
                                     <div
                                         class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-50 flex items-center justify-center text-green-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M5 13l4 4L19 7" />
                                         </svg>
                                     </div>
-                                    <div class="ml-4 truncate">
-                                        <p class="text-sm font-medium text-gray-300 ">Ticket #{{
+                                    <div class="ml-4 ">
+                                        <p class="text-sm font-medium text-gray-600 ">Ticket #{{
                                             ticket.ticket_number }}
                                         </p>
                                         <p class="text-sm text-gray-500">Scanned at {{ formatDateTime(ticket.scanned_at)
-                                        }}</p>
-                                        <div class="mt-1">
+                                            }}</p>
+                                        <div class="mb-3">
                                             <Link :href="route('events.show', ticket.event_id)"
                                                 class="text-sm font-medium text-blue-600 hover:text-blue-800">
                                             {{ ticket.event?.name }}

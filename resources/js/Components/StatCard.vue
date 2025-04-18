@@ -32,7 +32,7 @@ const iconColors = {
 </script>
 
 <template>
-    <div class="bg-slate-200 overflow-hidden shadow rounded-xl">
+    <div class="bg-slate-200 overflow-hidden shadow-2xl rounded-xl">
         <div class="p-5">
             <div class="flex items-center">
                 <div class="flex-shrink-0" :class="iconColors[color]">

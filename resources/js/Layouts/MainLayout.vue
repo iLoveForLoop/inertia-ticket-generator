@@ -1,8 +1,8 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
-import { ChevronDownIcon, PencilSquareIcon, CalendarDaysIcon, HomeIcon, Bars3Icon } from '@heroicons/vue/20/solid';
-import { TicketIcon, QrCodeIcon, ViewfinderCircleIcon, ChevronDoubleLeftIcon } from '@heroicons/vue/24/outline';
+import { ChevronDownIcon, PencilSquareIcon, CalendarDaysIcon, HomeIcon, Bars3Icon, UserCircleIcon } from '@heroicons/vue/20/solid';
+import { TicketIcon, QrCodeIcon, ViewfinderCircleIcon, ChevronDoubleLeftIcon, } from '@heroicons/vue/24/outline';
 import { useUIStore } from '@/stores/ui';
 
 const ui = ref(useUIStore())
@@ -228,14 +228,15 @@ const closeMobileMenu = () => {
 
                     <div class="flex items-center space-x-4">
                         <!-- User dropdown -->
-                        <Menu as="div" class="relative">
+
+                        <Menu as="div" class="relative" v-if="route().current('dashboard')">
                             <MenuButton class="flex items-center space-x-2">
                                 <span class="sr-only">Open user menu</span>
                                 <!-- <img class="h-8 w-8 rounded-full" :src="$page.props.auth.user.profile_photo_url"
                                     :alt="$page.props.auth.user.name" /> -->
-                                <span class="hidden md:inline text-sm font-medium text-gray-700">{{
-                                    $page.props.auth.user.name
-                                    }}</span>
+                                <span class="hidden md:inline text-sm font-medium text-slate-700">
+                                    <UserCircleIcon class="h-8 w-8" />
+                                </span>
                                 <ChevronDownIcon class="h-4 w-4 text-gray-400" />
                             </MenuButton>
                             <transition enter-active-class="transition ease-out duration-100"
