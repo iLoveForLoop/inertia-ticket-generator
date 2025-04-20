@@ -4,7 +4,8 @@ import StatCard from '@/Components/StatCard.vue';
 import Pagination from '@/Components/Pagination.vue';
 import { Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
-import { UserCircleIcon } from '@heroicons/vue/24/outline';
+import { CheckCircleIcon } from '@heroicons/vue/20/solid';
+
 
 const props = defineProps({
     events: Object,
@@ -47,7 +48,8 @@ const greeting = computed(() => {
 <template>
     <MainLayout>
         <template #header>
-            <h1 class="text-3xl font-bold text-slate-700">{{ greeting }}, {{ $page.props.auth.user.name }}</h1>
+            <h1 class=" md:text-2xl font-bold text-slate-700">{{ greeting }}, {{ $page.props.auth.user.name }}
+            </h1>
         </template>
 
         <!-- Main container with proper padding and structure -->
@@ -77,7 +79,7 @@ const greeting = computed(() => {
                     </div> -->
 
                     <!-- Empty state when no events are available -->
-                    <div v-if="!events.data || events.data.length === 0" class=" shadow-xl rounded-lg overflow-hidden">
+                    <div v-if="!events.data || events.data.length === 0" class=" rounded-lg overflow-hidden">
                         <div class="p-12 text-center">
                             <div class="mx-auto flex items-center justify-center h-24 w-24 rounded-full bg-blue-50">
                                 <svg class="h-16 w-16 text-slate-600" fill="none" viewBox="0 0 24 24"
@@ -114,12 +116,10 @@ const greeting = computed(() => {
                             <div class="relative h-48 w-full bg-gray-100">
                                 <img v-if="event.image_path" :src="'/storage/' + event.image_path" :alt="event.name"
                                     class="h-full w-full object-cover">
-                                <div v-else class="h-full w-full flex items-center justify-center bg-indigo-50">
-                                    <svg class="h-16 w-16 text-indigo-300" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
+                                <div v-else
+                                    class="h-full w-full flex items-center justify-center bg-gradient-to-r from-purple-300 to-slate-600">
+                                    <span class="text-white text-4xl font-bold opacity-70">{{ event.name.charAt(0)
+                                    }}</span>
                                 </div>
                                 <!-- Status badge -->
                                 <span
@@ -222,8 +222,8 @@ const greeting = computed(() => {
                             <div v-for="ticket in stats.recent_activity" :key="ticket.id" class="p-6 md:py-0 md:px-6 ">
                                 <div class="flex items-start truncate ">
                                     <div
-                                        class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-50 flex items-center justify-center text-green-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                        class="flex-shrink-0 h-10 w-10 rounded-full bg-slate-700 flex items-center justify-center text-green-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M5 13l4 4L19 7" />

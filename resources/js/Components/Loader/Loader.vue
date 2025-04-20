@@ -1,69 +1,78 @@
 <style scoped>
-/* HTML: <div class="loader"></div> */
-.loader {
-    width: 90px;
-    height: 14px;
-    box-shadow: 0 3px 0 #c74d4d;
-    position: relative;
-    clip-path: inset(-40px 0 -5px);
+/* mini loader component */
+.loader-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.75em;
+    /* 60px */
 }
 
-.loader:before {
-    content: "";
-    position: absolute;
-    inset: auto calc(50% - 17px) 0;
-    height: 50px;
-    --g: no-repeat linear-gradient(#d2d3e0 0 0);
-    background: var(--g), var(--g), var(--g), var(--g);
-    background-size: 16px 14px;
-    animation: l7-1 2s infinite linear, l7-2 2s infinite linear;
+.loader-dot {
+    height: 0.8125em;
+    /* 13px */
+    width: 1.25em;
+    /* 20px */
+    margin-right: 0.625em;
+    /* 10px */
+    border-radius: 0.625em;
+    /* 10px */
+    background-color: #721a8f;
+    animation: loaderpulse 1.5s infinite ease-in-out;
 }
 
-@keyframes l7-1 {
+.loader-dot:last-child {
+    margin-right: 0;
+}
 
-    0%,
+.loader-dot:nth-child(1) {
+    animation-delay: -0.1875s;
+    /* -0.3s */
+}
+
+.loader-dot:nth-child(2) {
+    animation-delay: -0.0625s;
+    /* -0.1s */
+}
+
+.loader-dot:nth-child(3) {
+    animation-delay: 0.0625s;
+    /* 0.1s */
+}
+
+@keyframes loaderpulse {
+    0% {
+        transform: scale(0.8);
+        background-color: #d7b3fc;
+        box-shadow: 0 0 0 0 rgb(196 178 252 / 70%);
+    }
+
+    50% {
+        transform: scale(1.2);
+        background-color: #70198e;
+        box-shadow: 0 0 0 0.625em rgba(178, 212, 252, 0);
+        /* 10px */
+    }
+
     100% {
-        background-position: 0 -50px, 100% -50px;
-    }
-
-    17.5% {
-        background-position: 0 100%, 100% -50px, 0 -50px, 100% -50px;
-    }
-
-    35% {
-        background-position: 0 100%, 100% 100%, 0 -50px, 100% -50px;
-    }
-
-    52.5% {
-        background-position: 0 100%, 100% 100%, 0 calc(100% - 16px), 100% -50px;
-    }
-
-    70%,
-    98% {
-        background-position: 0 100%, 100% 100%, 0 calc(100% - 16px),
-            100% calc(100% - 16px);
+        transform: scale(0.8);
+        background-color: #d7b3fc;
+        box-shadow: 0 0 0 0 rgb(196 178 252 / 70%);
     }
 }
 
-@keyframes l7-2 {
-
-    0%,
-    70% {
-        transform: translate(0);
-    }
-
-    100% {
-        transform: translate(200%);
-    }
-}
+/* mini loader component end */
 </style>
 
 <template>
-    <div class="fixed flex flex-col justify-center items-center inset-0 bg-black bg-opacity-40 z-50">
-
-        <div class="loader "></div>
-
-
+    <div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex flex-col justify-center items-center gap-5">
+        <div class="loader-container">
+            <div class="loader-dot"></div>
+            <div class="loader-dot"></div>
+            <div class="loader-dot"></div>
+            <div class="loader-dot"></div>
+        </div>
+        <span class="text-slate-200 text-sm">Generating Tickets</span>
     </div>
 
 </template>

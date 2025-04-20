@@ -75,13 +75,13 @@ const submit = () => {
 <template>
     <MainLayout>
         <template #header>
-            <h1 class="text-3xl font-bold text-gray-800">🎟️ Create Event & Generate Tickets</h1>
+            <h1 class=" md:text-2xl font-bold text-slate-700">Create Event & Generate Tickets</h1>
         </template>
 
         <Loader v-if="form.processing" />
 
 
-        <div class="max-w-4xl mx-auto mt-6 bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="max-w-4xl mx-auto mt-6 bg-slate-700 shadow-2xl rounded-lg overflow-hidden">
             <form @submit.prevent="submit" class="p-8 space-y-8">
                 <!-- Two Column Layout -->
                 <div class="flex flex-col md:flex-row justify-between gap-8">
@@ -91,7 +91,7 @@ const submit = () => {
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <!-- Event Name -->
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Event Name</label>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Event Name</label>
                                 <input v-model="form.name" type="text"
                                     class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" />
                                 <p v-if="form.errors.name" class="mt-1 text-sm text-red-600">{{ form.errors.name }}</p>
@@ -99,7 +99,7 @@ const submit = () => {
 
                             <!-- Venue -->
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Venue</label>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Venue</label>
                                 <input v-model="form.venue" type="text"
                                     class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" />
                                 <p v-if="form.errors.venue" class="mt-1 text-sm text-red-600">{{ form.errors.venue }}
@@ -108,7 +108,7 @@ const submit = () => {
 
                             <!-- Date & Time -->
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Date & Time</label>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Date & Time</label>
                                 <FlatPickr v-model="form.date_time" :config="dateTimeConfig"
                                     class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" />
                                 <p v-if="form.errors.date_time" class="mt-1 text-sm text-red-600">{{
@@ -118,7 +118,7 @@ const submit = () => {
 
                             <!-- Ticket Capacity -->
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Ticket Capacity</label>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Ticket Capacity</label>
                                 <input v-model="form.ticket_capacity" type="number" min="1"
                                     class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" />
                                 <p v-if="form.errors.ticket_capacity" class="mt-1 text-sm text-red-600">{{
@@ -128,7 +128,7 @@ const submit = () => {
 
                         <!-- Description -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Description</label>
                             <textarea v-model="form.description" rows="4"
                                 class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all resize-none"
                                 placeholder="Event details..."></textarea>

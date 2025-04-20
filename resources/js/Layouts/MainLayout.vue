@@ -111,18 +111,18 @@ const closeMobileMenu = () => {
         <transition enter-active-class="transition-opacity ease-linear duration-300" enter-from-class="opacity-0"
             enter-to-class="opacity-100" leave-active-class="transition-opacity ease-linear duration-300"
             leave-from-class="opacity-100" leave-to-class="opacity-0">
-            <div v-show="mobileMenuOpen" class="md:hidden fixed inset-0 z-30">
+            <div v-show="mobileMenuOpen" class="md:hidden fixed inset-0 z-30 ">
                 <!-- Overlay -->
                 <div class="fixed inset-0 bg-gray-600 bg-opacity-75 transition-opacity" @click="mobileMenuOpen = false">
                 </div>
 
                 <!-- Sidebar -->
-                <div class="fixed inset-y-0 left-0 flex max-w-xs w-full">
+                <div class="fixed inset-y-0 left-0 flex max-w-xs w-full ">
                     <transition enter-active-class="transition ease-in-out duration-300 transform"
                         enter-from-class="-translate-x-full" enter-to-class="translate-x-0"
                         leave-active-class="transition ease-in-out duration-300 transform"
                         leave-from-class="translate-x-0" leave-to-class="-translate-x-full">
-                        <div v-show="mobileMenuOpen" class="relative flex flex-col w-full max-w-xs bg-white">
+                        <div v-show="mobileMenuOpen" class="relative flex flex-col w-full max-w-xs bg-slate-700">
                             <!-- Close button -->
                             <div class="absolute top-0 right-0 -mr-14 p-1">
                                 <button type="button"
@@ -191,17 +191,7 @@ const closeMobileMenu = () => {
                                 </nav>
 
                                 <!-- User Profile Section -->
-                                <div class="px-4 py-4 border-t border-gray-200">
-                                    <div class="flex items-center">
-                                        <div class="ml-3">
-                                            <p class="text-sm font-medium text-gray-700">{{ $page.props.auth.user.name
-                                            }}</p>
-                                            <Link :href="route('profile.edit')" @click="closeMobileMenu"
-                                                class="text-xs font-medium text-indigo-600 hover:text-indigo-500">View
-                                            profile</Link>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                     </transition>
