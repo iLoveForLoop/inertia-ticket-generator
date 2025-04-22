@@ -8,6 +8,7 @@ import FlatPickr from 'vue-flatpickr-component';
 import 'flatpickr/dist/flatpickr.css';
 import 'flatpickr/dist/themes/material_blue.css';
 import { ref } from 'vue';
+import EventConfirmation from '@/Components/EventConfirmation.vue';
 
 const form = useForm({
     name: '',
@@ -19,6 +20,8 @@ const form = useForm({
 });
 
 const now = new Date();
+const isConfirming = ref(false)
+
 
 const dateTimeConfig = {
     enableTime: true,
@@ -65,14 +68,27 @@ const handleImageChange = (e) => {
     }
 };
 
-const submit = () => {
-    form.post(route('events.store'), {
-        forceFormData: true,
-    });
+const submit = (data) => {
+
+    if (data === 'yes') {
+        isConfirming.value = false
+        form.post(route('events.store'), {
+            forceFormData: true,
+        });
+        return
+    }
+
+    isConfirming.value = true
+
+
 };
 </script>
 
 <template>
+    <div v-if="isConfirming"
+        class="fixed inset-0 w-full h-full bg-black bg-opacity-70 flex justify-center items-center z-10">
+        <EventConfirmation @confirm="submit" @review="isConfirming = !isConfirming" />
+    </div>
     <MainLayout>
         <template #header>
             <h1 class=" md:text-2xl font-bold text-slate-700">Create Event & Generate Tickets</h1>
@@ -81,7 +97,7 @@ const submit = () => {
         <Loader v-if="form.processing" />
 
 
-        <div class="max-w-4xl mx-auto mt-6 bg-slate-700 shadow-2xl rounded-lg overflow-hidden">
+        <div class="max-w-4xl mx-auto mt-6 bg-slate-700 shadow-2xl rounded-lg overflow-hidden animate-slide-up">
             <form @submit.prevent="submit" class="p-8 space-y-8">
                 <!-- Two Column Layout -->
                 <div class="flex flex-col md:flex-row justify-between gap-8">

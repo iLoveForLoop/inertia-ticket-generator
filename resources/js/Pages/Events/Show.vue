@@ -3,12 +3,14 @@ import MainLayout from '@/Layouts/MainLayout.vue';
 import { Link, router } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import EditForm from './Partials/EditForm.vue';
+import Confirmation from '@/Components/Confirmation.vue';
 
 const props = defineProps({
     event: Object
 });
 
 const isEditing = ref(false)
+const isConfirming = ref(false)
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -36,9 +38,9 @@ const formattedDate = computed(() => {
 });
 
 const deleteEvent = () => {
-    if (confirm('Are you sure you want to delete this event?')) {
-        router.delete(route('events.destroy', props.event.id));
-    }
+    console.log('rer')
+    isConfirming.value = true
+
 };
 
 const editEvent = () => {
@@ -47,9 +49,20 @@ const editEvent = () => {
 };
 
 
+const confirmedDeleteEvent = () => {
+    router.delete(route('events.destroy', props.event.id));
+}
+
+
+
+
 </script>
 
 <template>
+    <div v-if="isConfirming" @click.self="isConfirming = !isConfirming"
+        class="fixed inset-0 w-full h-full flex items-center justify-center bg-black bg-opacity-70 z-10 ">
+        <Confirmation @close="isConfirming = !isConfirming" @confirm="confirmedDeleteEvent()" />
+    </div>
     <MainLayout>
         <iframe id="pdf-iframe" style="display: none;" @load="triggerPrint"></iframe>
 

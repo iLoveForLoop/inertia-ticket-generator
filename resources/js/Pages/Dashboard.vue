@@ -119,7 +119,7 @@ const greeting = computed(() => {
                                 <div v-else
                                     class="h-full w-full flex items-center justify-center bg-gradient-to-r from-purple-300 to-slate-600">
                                     <span class="text-white text-4xl font-bold opacity-70">{{ event.name.charAt(0)
-                                    }}</span>
+                                        }}</span>
                                 </div>
                                 <!-- Status badge -->
                                 <span
@@ -133,7 +133,7 @@ const greeting = computed(() => {
                             </div>
 
                             <!-- Event Details -->
-                            <div class="p-4 flex-1 flex flex-col bg-slate-200 shadow-lg">
+                            <div class="p-4 flex-1 flex flex-col bg-slate-100 shadow-lg">
                                 <div class="mb-2">
                                     <Link :href="route('events.show', event.id)"
                                         class="text-lg font-medium text-blue-600 hover:text-blue-800">
@@ -170,7 +170,7 @@ const greeting = computed(() => {
                                         <div>
                                             <span class="text-xs font-medium text-gray-900">{{
                                                 event.scanned_tickets_count
-                                                }}</span>
+                                            }}</span>
                                             <span class="text-xs text-gray-500"> / {{ event.tickets_count }} tickets
                                                 scanned</span>
                                         </div>
@@ -202,7 +202,7 @@ const greeting = computed(() => {
 
                 <!-- Recent Activity (narrower column) -->
                 <div class="lg:col-span-1">
-                    <div class="rounded-lg overflow-hidden sticky top-6 bg-slate-200 text-gray-50 shadow-2xl">
+                    <div class="rounded-lg overflow-hidden sticky top-6 bg-slate-100 text-gray-50 shadow-2xl">
                         <div class="px-6 py-4 ">
                             <h2 class="text-lg font-medium text-gray-600">Recent Scans</h2>
                         </div>
@@ -234,7 +234,7 @@ const greeting = computed(() => {
                                             ticket.ticket_number }}
                                         </p>
                                         <p class="text-sm text-gray-500">Scanned at {{ formatDateTime(ticket.scanned_at)
-                                            }}</p>
+                                        }}</p>
                                         <div class="mb-3">
                                             <Link :href="route('events.show', ticket.event_id)"
                                                 class="text-sm font-medium text-blue-600 hover:text-blue-800">

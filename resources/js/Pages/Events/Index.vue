@@ -27,7 +27,7 @@ const formatDate = (dateString) => {
         <template #header>
             <h1 class="text-2xl font-bold text-gray-800">Events</h1>
         </template>
-        <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+        <div class="min-h-screen bg-slate-200 py-8 px-4 sm:px-6 lg:px-8 rounded-lg">
             <div class="max-w-7xl mx-auto">
                 <!-- Header Section -->
                 <!-- <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4">
@@ -77,7 +77,7 @@ const formatDate = (dateString) => {
                 <!-- Events Grid -->
                 <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div v-for="event in events" :key="event.id"
-                        class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        class="bg-slate-100 rounded-2xl shadow-2xl overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                         <Link :href="route('events.show', event.id)" class="block h-full">
                         <!-- Event Image -->
                         <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 overflow-hidden relative">
