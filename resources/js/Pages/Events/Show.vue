@@ -4,6 +4,7 @@ import { Link, router } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import EditForm from './Partials/EditForm.vue';
 import Confirmation from '@/Components/Confirmation.vue';
+import { ArrowLeftIcon } from '@heroicons/vue/20/solid';
 
 const props = defineProps({
     event: Object
@@ -53,205 +54,186 @@ const confirmedDeleteEvent = () => {
     router.delete(route('events.destroy', props.event.id));
 }
 
-
+const goBack = () => {
+    window.history.back();
+}
 
 
 </script>
 
 <template>
-    <div v-if="isConfirming" @click.self="isConfirming = !isConfirming"
-        class="fixed inset-0 w-full h-full flex items-center justify-center bg-black bg-opacity-70 z-10 ">
-        <Confirmation @close="isConfirming = !isConfirming" @confirm="confirmedDeleteEvent()" />
+    <!-- Confirmation Modal -->
+    <div v-if="isConfirming" @click.self="isConfirming = false"
+        class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
+        <Confirmation @close="isConfirming = false" @confirm="confirmedDeleteEvent()" />
     </div>
+
+    <!-- PDF Iframe (hidden) -->
+    <!-- <iframe id="pdf-iframe" class="hidden" @load="triggerPrint"></iframe> -->
+
+    <!-- Edit Modal -->
+    <div v-if="isEditing" @click.self="isEditing = false"
+        class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-40">
+        <EditForm :event="event" @closeEdit="isEditing = false" />
+    </div>
+
     <MainLayout>
-        <iframe id="pdf-iframe" style="display: none;" @load="triggerPrint"></iframe>
+        <!-- Header -->
+        <template #header>
+            <button @click="goBack"
+                class="hidden md:block md:p-2 md:hover:bg-gray-100 md:rounded-full md:transition-colors">
+                <ArrowLeftIcon class="w-6 h-6 cursor-pointer" />
+            </button>
+        </template>
 
-        <!-- Edit Form -->
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+            <!-- Event Header -->
+            <div class="flex flex-col md:flex-row md:items-center mb-6 gap-6">
+                <!-- Date Badge -->
+                <div class="bg-white shadow-md rounded-xl p-4 text-center flex-shrink-0 min-w-20">
+                    <span class="text-3xl font-bold text-gray-900">{{ formattedDate.day }}</span>
+                    <p class="text-sm uppercase tracking-wider text-gray-500">{{ formattedDate.month }}</p>
+                </div>
 
-        <div v-if="isEditing" @click.self="isEditing = false"
-            class="bg-black bg-opacity-50 inset-0 z-40 w-screen h-screen fixed flex justify-center items-center">
-            <Transition name="form-fade" appear>
-                <EditForm :event="event" @closeEdit="isEditing = false" />
-            </Transition>
-
-        </div>
-
-
-
-        <!-- Hero section with full-width image and gradient overlay -->
-        <div class="relative w-full">
-            <div class="w-full h-96 overflow-hidden relative">
-                <div v-if="event.image_path" class="absolute inset-0">
-                    <img :src="'/storage/' + event.image_path" :alt="event.name"
-                        class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90">
+                <!-- Event Title and Info -->
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">{{ event.name }}</h1>
+                    <div class="flex flex-wrap items-center gap-3 mt-2">
+                        <span class="inline-flex items-center text-sm text-gray-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            {{ formattedDate.time }}
+                        </span>
+                        <span class="inline-flex items-center text-sm text-gray-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            {{ event.venue }}
+                        </span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+                            :class="isUpcoming ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'">
+                            {{ isUpcoming ? 'Upcoming' : 'Past' }}
+                        </span>
                     </div>
                 </div>
-                <div v-else class="absolute inset-0 bg-gradient-to-r from-purple-900 to-blue-900"></div>
+            </div>
 
-                <!-- Event title overlay -->
-                <div class="absolute bottom-0 left-0 p-8 w-full">
-                    <div class="flex items-center">
-                        <div class="mr-6">
-                            <div class="bg-white/10 backdrop-blur-md p-3 rounded-lg text-center border border-white/20">
-                                <span class="text-3xl font-bold text-white">{{ formattedDate.day }}</span>
-                                <p class="text-sm uppercase tracking-wider text-white/90">{{ formattedDate.month }}</p>
-                            </div>
-                        </div>
-                        <div>
-                            <h1 class="text-4xl md:text-5xl font-bold text-white drop-shadow-lg mb-2">{{ event.name }}
-                            </h1>
-                            <div class="flex items-center gap-3">
-                                <span class="bg-white/20 px-3 py-1 rounded-full text-sm text-white flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none"
+            <!-- Event Image -->
+            <div class="w-full rounded-2xl overflow-hidden mb-8 h-64 md:h-80">
+                <div v-if="event.image_path" class="h-full w-full">
+                    <img :src="'/storage/' + event.image_path" :alt="event.name" class="w-full h-full object-cover">
+                </div>
+                <div v-else class="h-full w-full bg-gradient-to-r from-blue-500 to-indigo-600"></div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Column - About -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-xl p-6 shadow-sm h-full">
+                        <h2 class="text-xl font-semibold text-gray-900 mb-4">About This Event</h2>
+                        <p class="text-gray-700 leading-relaxed">{{ event.description }}</p>
+                    </div>
+                </div>
+
+                <!-- Right Column - Details & Actions -->
+                <div class="space-y-6">
+                    <!-- Event Details -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Event Details</h3>
+
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mt-1 bg-blue-50 p-2 rounded-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
-                                    {{ formattedDate.time }}
-                                </span>
-                                <span class="bg-white/20 px-3 py-1 rounded-full text-sm text-white flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none"
+                                </div>
+                                <div class="ml-4">
+                                    <p class="text-sm font-medium text-gray-900">Date & Time</p>
+                                    <p class="text-sm text-gray-600">{{ formatDate(event.date_time) }}</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mt-1 bg-blue-50 p-2 rounded-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
-                                    {{ event.venue }}
-                                </span>
-                                <span class="px-3 py-1 rounded-full text-sm font-medium flex items-center"
-                                    :class="isUpcoming ? 'bg-green-500/90 text-white' : 'bg-gray-500/90 text-white'">
-                                    {{ isUpcoming ? 'Upcoming' : 'Past' }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Content section -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-5">
-            <div
-                class="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden backdrop-blur-lg border border-gray-100 dark:border-gray-700">
-                <!-- Details -->
-                <div class="p-6 md:p-8">
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <!-- Left column - Description -->
-                        <div class="lg:col-span-2">
-                            <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">About This Event</h2>
-                            <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">{{ event.description }}</p>
-
-                            <!-- Additional details can go here -->
-                            <div
-                                class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 border border-gray-100 dark:border-gray-600">
-                                <div class="text-sm text-gray-500 dark:text-gray-400">
-                                    <p class="mb-2">Join us for an unforgettable night of music and entertainment.</p>
-                                    <p>Doors open one hour before the show. Valid ID required for entry.</p>
                                 </div>
-                            </div>
-                        </div>
-
-                        <!-- Right column - Event Details -->
-                        <div
-                            class="bg-gray-50 dark:bg-gray-700/30 rounded-lg p-6 border border-gray-100 dark:border-gray-600">
-                            <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Event Information</h3>
-
-                            <div class="space-y-4">
-                                <div class="flex items-start">
-                                    <div class="flex-shrink-0 mt-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="h-5 w-5 text-gray-500 dark:text-gray-400" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg>
-                                    </div>
-                                    <div class="ml-3">
-                                        <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Date & Time</p>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">{{
-                                            formatDate(event.date_time) }}</p>
-                                    </div>
-                                </div>
-
-                                <div class="flex items-start">
-                                    <div class="flex-shrink-0 mt-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="h-5 w-5 text-gray-500 dark:text-gray-400" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        </svg>
-                                    </div>
-                                    <div class="ml-3">
-                                        <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Venue</p>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ event.venue }}</p>
-                                    </div>
-                                </div>
-
-                                <div class="flex items-start">
-                                    <div class="flex-shrink-0 mt-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="h-5 w-5 text-gray-500 dark:text-gray-400" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
-                                        </svg>
-                                    </div>
-                                    <div class="ml-3">
-                                        <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Ticket Capacity
-                                        </p>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ event.ticket_capacity }}
-                                        </p>
-                                    </div>
+                                <div class="ml-4">
+                                    <p class="text-sm font-medium text-gray-900">Venue</p>
+                                    <p class="text-sm text-gray-600">{{ event.venue }}</p>
                                 </div>
                             </div>
 
-                            <!-- Action buttons -->
-                            <div class="mt-8 flex flex-col gap-3">
-                                <button @click="router.get(route('tickets', event.id))"
-                                    class="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-3 px-4 rounded-lg font-medium hover:from-blue-700 hover:to-indigo-800 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center pulse ">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mt-1 bg-blue-50 p-2 rounded-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
                                     </svg>
-                                    View Tickets
-                                </button>
-                                <div class="flex gap-3">
-                                    <button @click="editEvent"
-                                        class="flex-1 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white py-2 px-4 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                        </svg>
-                                        Edit
-                                    </button>
-                                    <button @click="deleteEvent"
-                                        class="flex-1 bg-red-50 hover:bg-red-100 dark:bg-red-900/30 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 py-2 px-4 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                        Delete
-                                    </button>
+                                </div>
+                                <div class="ml-4">
+                                    <p class="text-sm font-medium text-gray-900">Ticket Capacity</p>
+                                    <p class="text-sm text-gray-600">{{ event.ticket_capacity }}</p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm">
+                        <button @click="router.get(route('tickets', event.id))"
+                            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg mb-3 transition-colors duration-200 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
+                            </svg>
+                            View Tickets
+                        </button>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <button @click="editEvent"
+                                class="bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-4 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                                Edit
+                            </button>
+                            <button @click="deleteEvent"
+                                class="bg-white hover:bg-red-50 text-red-600 py-2 px-4 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center border border-gray-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                                Delete
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </MainLayout>
-
-
 </template>
-
 <style>
 /* Optional: Additional animations and transitions */
 @keyframes pulse {

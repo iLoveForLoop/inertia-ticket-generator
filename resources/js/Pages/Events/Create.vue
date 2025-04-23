@@ -109,7 +109,8 @@ const submit = (data) => {
                             <div>
                                 <label class="block text-sm font-medium text-gray-300 mb-2">Event Name</label>
                                 <input v-model="form.name" type="text"
-                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" />
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                                    required />
                                 <p v-if="form.errors.name" class="mt-1 text-sm text-red-600">{{ form.errors.name }}</p>
                             </div>
 
@@ -117,7 +118,8 @@ const submit = (data) => {
                             <div>
                                 <label class="block text-sm font-medium text-gray-300 mb-2">Venue</label>
                                 <input v-model="form.venue" type="text"
-                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" />
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                                    required />
                                 <p v-if="form.errors.venue" class="mt-1 text-sm text-red-600">{{ form.errors.venue }}
                                 </p>
                             </div>
@@ -126,7 +128,8 @@ const submit = (data) => {
                             <div>
                                 <label class="block text-sm font-medium text-gray-300 mb-2">Date & Time</label>
                                 <FlatPickr v-model="form.date_time" :config="dateTimeConfig"
-                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" />
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                                    required />
                                 <p v-if="form.errors.date_time" class="mt-1 text-sm text-red-600">{{
                                     form.errors.date_time }}
                                 </p>
@@ -136,7 +139,8 @@ const submit = (data) => {
                             <div>
                                 <label class="block text-sm font-medium text-gray-300 mb-2">Ticket Capacity</label>
                                 <input v-model="form.ticket_capacity" type="number" min="1"
-                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" />
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                                    required />
                                 <p v-if="form.errors.ticket_capacity" class="mt-1 text-sm text-red-600">{{
                                     form.errors.ticket_capacity }}</p>
                             </div>

@@ -71,7 +71,7 @@ const submit = () => {
 
     <form @submit.prevent="submit" class="p-8">
 
-        <div class="bg-white rounded-lg shadow-md p-8 max-w-4xl mx-auto">
+        <div class="bg-white rounded-lg shadow-md p-8 max-w-4xl mx-auto animate-slide-up">
             <h1 class="text-xl mb-5">Edit Event</h1>
             <div class="space-y-8 flex flex-col md:flex-row justify-between gap-8">
                 <!-- Left Column: Form Fields -->
@@ -102,7 +102,7 @@ const submit = () => {
                             <FlatPickr v-model="form.date_time" :config="dateTimeConfig"
                                 class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" />
                             <p v-if="form.errors.date_time" class="mt-1 text-sm text-red-600">{{ form.errors.date_time
-                                }}</p>
+                            }}</p>
                         </div>
                     </div>
 
@@ -113,7 +113,7 @@ const submit = () => {
                             class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all resize-none"
                             placeholder="Tell people about your event..."></textarea>
                         <p v-if="form.errors.description" class="mt-1 text-sm text-red-600">{{ form.errors.description
-                            }}</p>
+                        }}</p>
                     </div>
                 </div>
 
