@@ -68,8 +68,7 @@ const goBack = () => {
         <Confirmation @close="isConfirming = false" @confirm="confirmedDeleteEvent()" />
     </div>
 
-    <!-- PDF Iframe (hidden) -->
-    <!-- <iframe id="pdf-iframe" class="hidden" @load="triggerPrint"></iframe> -->
+
 
     <!-- Edit Modal -->
     <div v-if="isEditing" @click.self="isEditing = false"

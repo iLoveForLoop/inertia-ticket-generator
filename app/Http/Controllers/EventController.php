@@ -14,9 +14,17 @@ class EventController extends Controller
 {
     use AuthorizesRequests; // Add this trait
 
-    public function index(){
-        $events = auth()->user()->events()->latest()->get();
-        return inertia('Events/Index', compact('events'));
+    public function index(Request $request){
+
+        $search = $request->input('search');
+        $events = auth()->user()->events()
+        ->latest()
+        ->when($search, fn($query, $search) =>
+            $query->where('name', 'like', "%{$search}%")
+        )
+        ->get();
+
+    return inertia('Events/Index', compact('events', 'search'));
     }
 
     public function create(){

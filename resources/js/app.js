@@ -29,7 +29,5 @@ createInertiaApp({
             .component('FlatPickr', FlatPickr)
             .mount(el);
     },
-    progress: {
-        color: '#4B5563',
-    },
+    progress: false,
 });

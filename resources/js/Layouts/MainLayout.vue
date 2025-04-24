@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
-import { ChevronDownIcon, PencilSquareIcon, CalendarDaysIcon, HomeIcon, Bars3Icon, UserCircleIcon } from '@heroicons/vue/20/solid';
+import { ChevronDownIcon, PencilSquareIcon, CalendarDaysIcon, HomeIcon, Bars3Icon, UserCircleIcon, XMarkIcon } from '@heroicons/vue/20/solid';
 import { TicketIcon, QrCodeIcon, ViewfinderCircleIcon, ChevronDoubleLeftIcon, } from '@heroicons/vue/24/outline';
 import { useUIStore } from '@/stores/ui';
 
@@ -212,10 +212,9 @@ const closeMobileMenu = () => {
                             <Bars3Icon class="h-6 w-6" />
                         </button>
                     </div>
-                    <h1 class="text-lg font-semibold text-gray-900 ">
+                    <div class=" text-lg  text-gray-900 w-full">
                         <slot name="header" />
-                    </h1>
-
+                    </div>
                     <div class="flex items-center space-x-4">
                         <!-- User dropdown -->
 

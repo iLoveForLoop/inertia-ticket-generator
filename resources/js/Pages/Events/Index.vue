@@ -1,13 +1,21 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 import MainLayout from '@/Layouts/MainLayout.vue';
+import Searchbar from '@/Components/Searchbar.vue';
+import { ref } from 'vue';
 
-defineProps({
+const props = defineProps({
     events: {
         type: Array,
-        default: () => [] // Provide empty array as default
+        default: () => []
+    },
+    search: {
+        type: String,
+        default: ''
     }
 });
+
+// const searchData = ref(props.search)
 
 const formatDate = (dateString) => {
     if (!dateString) return 'No date set';
@@ -20,13 +28,38 @@ const formatDate = (dateString) => {
         minute: '2-digit'
     });
 };
+
+
+const handleSearch = (data) => {
+    console.log(data)
+    router.get(
+        route('events.index'),
+        { search: data },
+        { preserveState: true, replace: true })
+
+}
+
+// const handleSearch = (data) => {
+//     console.log(data)
+//     router.get(
+//         route('events.index'),
+//         { search: data },
+//         { preserveState: true, replace: true }
+//     )
+// }
+
 </script>
 
 <template>
     <MainLayout>
         <template #header>
-            <h1 class="text-2xl font-bold text-gray-800">Events</h1>
+            <div class="w-full flex items-center justify-between">
+                <h1 class="text-2xl font-bold text-gray-800">Events</h1>
+                <Searchbar @search="handleSearch" :search="search" />
+            </div>
+
         </template>
+
         <div class="min-h-screen bg-slate-200 py-8 px-4 sm:px-6 lg:px-8 rounded-lg">
             <div class="max-w-7xl mx-auto">
                 <!-- Header Section -->

@@ -119,7 +119,7 @@ const greeting = computed(() => {
                                 <div v-else
                                     class="h-full w-full flex items-center justify-center bg-gradient-to-r from-purple-300 to-slate-600">
                                     <span class="text-white text-4xl font-bold opacity-70">{{ event.name.charAt(0)
-                                        }}</span>
+                                    }}</span>
                                 </div>
                                 <!-- Status badge -->
                                 <span
@@ -141,7 +141,9 @@ const greeting = computed(() => {
                                     </Link>
                                 </div>
 
-                                <p class="text-sm text-gray-600 line-clamp-2 mb-3 flex-grow">{{ event.description }}</p>
+                                <p class="text-sm text-gray-600 line-clamp-2 mb-3 flex-grow truncate">{{
+                                    event.description }}
+                                </p>
 
                                 <div class="space-y-2 mt-auto">
                                     <div class="flex items-center text-xs text-gray-500">
@@ -170,7 +172,7 @@ const greeting = computed(() => {
                                         <div>
                                             <span class="text-xs font-medium text-gray-900">{{
                                                 event.scanned_tickets_count
-                                            }}</span>
+                                                }}</span>
                                             <span class="text-xs text-gray-500"> / {{ event.tickets_count }} tickets
                                                 scanned</span>
                                         </div>
@@ -234,7 +236,7 @@ const greeting = computed(() => {
                                             ticket.ticket_number }}
                                         </p>
                                         <p class="text-sm text-gray-500">Scanned at {{ formatDateTime(ticket.scanned_at)
-                                        }}</p>
+                                            }}</p>
                                         <div class="mb-3">
                                             <Link :href="route('events.show', ticket.event_id)"
                                                 class="text-sm font-medium text-blue-600 hover:text-blue-800">
