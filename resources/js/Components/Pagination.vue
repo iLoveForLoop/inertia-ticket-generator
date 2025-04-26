@@ -1,5 +1,5 @@
 <template>
-    <div v-if="links.length > 3" class="flex items-center justify-between border-t border-gray-200 px-4 py-3 sm:px-6">
+    <div v-if="links?.length > 3" class="flex items-center justify-between border-t border-gray-200 px-4 py-3 sm:px-6">
         <div class="flex flex-1 justify-between sm:hidden">
             <Link :href="links[0].url" :class="{
                 'pointer-events-none opacity-50': !links[0].url
@@ -18,11 +18,11 @@
             <div>
                 <p class="text-sm text-gray-700">
                     Showing
-                    <span class="font-medium">{{ meta?.from }}</span>
+                    <span class="font-medium">{{ from }}</span>
                     to
-                    <span class="font-medium">{{ meta?.to }}</span>
+                    <span class="font-medium">{{ to }}</span>
                     of
-                    <span class="font-medium">{{ meta?.total }}</span>
+                    <span class="font-medium">{{ total }}</span>
                     results
                 </p>
             </div>
@@ -47,13 +47,15 @@
 import { Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
 
-const props = defineProps({
+const { links, from, to, total } = defineProps({
     links: Array,
-    meta: Object
+    from: Number,
+    to: Number,
+    total: Number
 });
 
 const currentPage = computed(() => {
-    const activeLink = props.links.find(link => link.active);
+    const activeLink = links.find(link => link.active);
     return activeLink ? parseInt(activeLink.label) : 1;
 });
 </script>

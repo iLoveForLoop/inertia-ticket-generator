@@ -14,7 +14,6 @@ const emit = defineEmits(['search'])
 const inputedText = ref(props.search);
 
 watch(() => inputedText.value, (newData) => {
-
     emit('search', newData)
 })
 

@@ -54,7 +54,7 @@ const handleSearch = (data) => {
     <MainLayout>
         <template #header>
             <div class="w-full flex items-center justify-between">
-                <h1 class="text-2xl font-bold text-gray-800">Events</h1>
+                <h1 class="md:text-2xl font-bold text-slate-700">Events</h1>
                 <Searchbar @search="handleSearch" :search="search" />
             </div>
 
@@ -90,8 +90,8 @@ const handleSearch = (data) => {
                                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                         </div>
-                        <h2 class="mt-6 text-2xl font-bold text-gray-900">No events yet</h2>
-                        <p class="mt-2 text-gray-600">Create your first event to start selling and scanning tickets.</p>
+                        <h2 class="mt-6 text-2xl font-bold text-gray-900">No events found</h2>
+                        <!-- <p class="mt-2 text-gray-600">Create your first event to start selling and scanning tickets.</p>
                         <div class="mt-8">
                             <Link :href="route('events.create')"
                                 class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -103,7 +103,7 @@ const handleSearch = (data) => {
                             </svg>
                             New Event
                             </Link>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
@@ -133,7 +133,7 @@ const handleSearch = (data) => {
                         <div class="p-6">
                             <div class="flex justify-between items-start">
                                 <h3 class="text-xl font-bold text-gray-900 truncate">{{ event.name || 'Untitled Event'
-                                    }}</h3>
+                                }}</h3>
                                 <span
                                     class="flex-shrink-0 bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
                                     {{ event.ticket_capacity || 0 }} tickets

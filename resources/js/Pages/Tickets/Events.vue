@@ -1,11 +1,15 @@
 <script setup>
 import MainLayout from '@/Layouts/MainLayout.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
+import Searchbar from '@/Components/Searchbar.vue';
 
 defineProps({
     events: {
         type: Array,
         default: () => []
+    },
+    search: {
+        type: String
     }
 });
 
@@ -19,10 +23,23 @@ const formatDate = (dateString) => {
         minute: '2-digit'
     });
 };
+
+const handleSearch = (data) => {
+    router.get(route('events.tickets'),
+        { search: data },
+        { preserveState: true, replace: true })
+}
 </script>
 
 <template>
     <MainLayout>
+        <template #header>
+            <div class="w-full flex items-center justify-between">
+                <h1 class="md:text-2xl font-bold text-slate-700">Tickets</h1>
+                <Searchbar @search="handleSearch" :search="search" />
+            </div>
+
+        </template>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
 

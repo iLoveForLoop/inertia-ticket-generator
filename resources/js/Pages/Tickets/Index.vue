@@ -1,11 +1,15 @@
 <script setup>
 import MainLayout from '@/Layouts/MainLayout.vue';
 import { ref } from 'vue';
+import Pagination from '@/Components/Pagination.vue'
 
 const props = defineProps({
     event: {
         type: Array,
         default: []
+    },
+    tickets: {
+        type: Object
     }
 });
 
@@ -44,14 +48,23 @@ const formatDate = (dateString) => {
         minute: '2-digit'
     });
 };
+
+console.log('PAGINAATE: ', props.tickets.meta)
 </script>
 
 <template>
     <MainLayout>
+        <template #header>
+            <div class="w-full flex items-center justify-between">
+                <h1 class="md:text-2xl font-bold text-slate-700">Tickets</h1>
+                <Pagination :links="tickets.links" :from="tickets.from" :to="tickets.to" :total="tickets.total" />
+            </div>
+
+        </template>
         <iframe id="pdf-iframe" style="display: none;"></iframe>
 
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center mb-6 border-b pb-4">
+            <div class="flex justify-between items-center mb-3 border-b pb-4">
                 <div>
                     <h1 class="text-2xl font-bold text-gray-900">{{ event.name }}</h1>
                     <p class="text-sm text-gray-500">Ticket Management</p>
@@ -92,7 +105,7 @@ const formatDate = (dateString) => {
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <tr v-for="ticket in event.tickets" :key="ticket.id">
+                        <tr v-for="ticket in tickets.data" :key="ticket.id">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm font-medium text-gray-900">{{ ticket.ticket_number }}</div>
                             </td>
@@ -120,7 +133,7 @@ const formatDate = (dateString) => {
             </div>
 
             <!-- Empty state if no tickets -->
-            <div v-if="!event.tickets || event.tickets.length === 0" class="text-center py-10">
+            <div v-if="!tickets.data || tickets.data.length === 0" class="text-center py-10">
                 <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                     aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

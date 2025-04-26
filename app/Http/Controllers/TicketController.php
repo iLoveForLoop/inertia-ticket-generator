@@ -113,12 +113,16 @@ public function printTicket(Ticket $ticket)
 
 
 //Showing
-public function eventTickets()
+public function eventTickets(Request $request)
 {
+    $search = $request->input('search');
     $events = auth()->user()->events()
         ->latest()
-        ->withCount('tickets') // Add ticket count if you have tickets relationship
-        ->get();
+        ->withCount('tickets')
+        ->when($search, fn($query, $search) =>
+            $query->where('name', 'like', "%{$search}%")
+        )
+        ->paginate(5);
 
     return inertia('Tickets/Events', [
         'events' => $events->map(function ($event) {
@@ -127,20 +131,20 @@ public function eventTickets()
                 'name' => $event->name,
                 'description' => $event->description,
                 'date_time' => $event->date_time,
-                'formatted_date' => $event->date_time->format('M d, Y h:i A'), // Formatted date
+                'formatted_date' => $event->date_time->format('M d, Y h:i A'),
                 'venue' => $event->venue,
                 'ticket_capacity' => $event->ticket_capacity,
-                'tickets_count' => $event->tickets_count ?? 0, // From withCount
+                'tickets_count' => $event->tickets_count ?? 0,
                 'image_url' => $event->image_path ? asset('storage/'.$event->image_path) : null,
                 'is_upcoming' => $event->date_time > now(),
             ];
-        })
+        }), 'search' => $search
     ]);
 }
 
     public function showTickets(Event $event){
-        $event->load('tickets');
-        return inertia('Tickets/Index', compact('event'));
+        $tickets = $event->tickets()->paginate(10);
+        return inertia('Tickets/Index', compact('event', 'tickets'));
     }
 
 
