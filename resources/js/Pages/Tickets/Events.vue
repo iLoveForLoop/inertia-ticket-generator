@@ -123,22 +123,15 @@ const handleSearch = (data) => {
             </div>
 
             <!-- Empty State -->
-            <div v-if="events.length === 0" class="text-center py-12">
-                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <h3 class="mt-2 text-lg font-medium text-gray-900">No events yet</h3>
-                <p class="mt-1 text-gray-500">Get started by creating your first event.</p>
-                <div class="mt-6">
-                    <Link href="/events/create"
-                        class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    <svg class="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                    New Event
-                    </Link>
+            <div v-if="events.length === 0" class="bg-slate-200 rounded-2xl overflow-hidden text-center py-16 px-6">
+                <div class="max-w-md mx-auto">
+                    <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-blue-50">
+                        <svg class="h-8 w-8 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h2 class="mt-6 text-xl text-gray-900">No events found</h2>
                 </div>
             </div>
         </div>

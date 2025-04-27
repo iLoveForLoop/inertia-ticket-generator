@@ -65,7 +65,8 @@
 </style>
 
 <template>
-    <div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex flex-col justify-center items-center gap-5">
+    <div
+        class="fixed inset-0 bg-gray-500 opacity-75 dark:bg-gray-900 flex flex-col items-center justify-center z-50 gap-5">
         <div class="loader-container">
             <div class="loader-dot"></div>
             <div class="loader-dot"></div>

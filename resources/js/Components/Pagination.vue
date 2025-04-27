@@ -1,45 +1,45 @@
 <template>
-    <div v-if="links?.length > 3" class="flex items-center justify-between border-t border-gray-200 px-4 py-3 sm:px-6">
-        <div class="flex flex-1 justify-between sm:hidden">
-            <Link :href="links[0].url" :class="{
-                'pointer-events-none opacity-50': !links[0].url
-            }"
-                class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-            Previous
-            </Link>
-            <Link :href="links[links.length - 1].url" :class="{
-                'pointer-events-none opacity-50': !links[links.length - 1].url
-            }"
-                class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-            Next
-            </Link>
+    <div v-if="links?.length > 3"
+        class="flex flex-col items-center justify-between gap-4 border-t border-gray-200 px-4 py-6 sm:flex-row sm:px-6">
+        <!-- Results -->
+        <div class="text-sm text-gray-600">
+            Showing
+            <span class="font-semibold text-gray-800">{{ from }}</span>
+            to
+            <span class="font-semibold text-gray-800">{{ to }}</span>
+            of
+            <span class="font-semibold text-gray-800">{{ total }}</span>
+            results
         </div>
-        <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-            <div>
-                <p class="text-sm text-gray-700">
-                    Showing
-                    <span class="font-medium">{{ from }}</span>
-                    to
-                    <span class="font-medium">{{ to }}</span>
-                    of
-                    <span class="font-medium">{{ total }}</span>
-                    results
-                </p>
-            </div>
-            <div>
-                <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-                    <Link v-for="(link, index) in links" :key="index" :href="link.url" v-html="link.label" :class="{
-                        'z-10 bg-blue-50 border-blue-500 text-blue-600': link.active,
-                        'bg-white border-gray-300 text-gray-500 hover:bg-gray-50': !link.active && link.url,
-                        'text-gray-400 pointer-events-none': !link.url,
-                        'rounded-l-md': index === 0,
-                        'rounded-r-md': index === links.length - 1,
-                        'hidden md:inline-flex': index !== 0 && index !== links.length - 1 && index !== currentPage - 1 && index !== currentPage && index !== currentPage + 1
-                    }" class="relative inline-flex items-center border px-4 py-2 text-sm font-medium focus:z-20"
-                        preserve-state />
-                </nav>
-            </div>
-        </div>
+
+        <!-- Pagination -->
+        <nav class="flex flex-wrap items-center gap-2" aria-label="Pagination">
+            <!-- Previous -->
+            <component :is="links[0]?.url ? Link : 'span'" :href="links[0]?.url"
+                class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium" :class="links[0]?.url
+                    ? 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition'
+                    : 'bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed'">
+                &laquo; Previous
+            </component>
+
+            <!-- Pages -->
+            <template v-for="(link, index) in links.slice(1, links.length - 1)" :key="index">
+                <component v-if="link && link.label !== '...'" :is="link.url ? Link : 'span'" :href="link.url"
+                    class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium transition" :class="{
+                        'bg-blue-100 text-blue-600 font-semibold border border-blue-300': link.active,
+                        'bg-white text-gray-600 border border-gray-300 hover:bg-gray-100': !link.active && link.url,
+                        'bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed': !link.url
+                    }" v-html="link.label" preserve-state />
+            </template>
+
+            <!-- Next -->
+            <component :is="links[links.length - 1]?.url ? Link : 'span'" :href="links[links.length - 1]?.url"
+                class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium" :class="links[links.length - 1]?.url
+                    ? 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition'
+                    : 'bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed'">
+                Next &raquo;
+            </component>
+        </nav>
     </div>
 </template>
 
@@ -47,7 +47,7 @@
 import { Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
 
-const { links, from, to, total } = defineProps({
+const props = defineProps({
     links: Array,
     from: Number,
     to: Number,
@@ -55,7 +55,7 @@ const { links, from, to, total } = defineProps({
 });
 
 const currentPage = computed(() => {
-    const activeLink = links.find(link => link.active);
+    const activeLink = props.links?.find(link => link.active);
     return activeLink ? parseInt(activeLink.label) : 1;
 });
 </script>

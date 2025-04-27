@@ -9,6 +9,7 @@ import 'flatpickr/dist/flatpickr.css';
 import 'flatpickr/dist/themes/material_blue.css';
 import { ref } from 'vue';
 import EventConfirmation from '@/Components/EventConfirmation.vue';
+import Modal from '@/Components/Modal.vue';
 
 const form = useForm({
     name: '',
@@ -85,14 +86,17 @@ const submit = (data) => {
 </script>
 
 <template>
-    <div v-if="isConfirming"
-        class="fixed inset-0 w-full h-full bg-black bg-opacity-70 flex justify-center items-center z-10">
+
+    <Modal :show="isConfirming">
         <EventConfirmation @confirm="submit" @review="isConfirming = !isConfirming" />
-    </div>
+    </Modal>
+
+
     <MainLayout>
         <template #header>
             <h1 class=" md:text-2xl font-bold text-slate-700">Create Event & Generate Tickets</h1>
         </template>
+
 
         <Loader v-if="form.processing" />
 
@@ -210,15 +214,15 @@ const submit = (data) => {
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="flex justify-between items-center pt-8 mt-8 border-t border-gray-200">
-                    <Link :href="route('events.index')"
+                <div class="flex justify-end items-center pt-8 mt-8 border-t border-gray-200">
+                    <!-- <Link :href="route('events.index')"
                         class="px-5 py-2.5 text-sm font-medium rounded-lg border border-gray-300 shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                     </svg>
                     Cancel
-                    </Link>
+                    </Link> -->
                     <button type="submit"
                         class="px-6 py-2.5 bg-indigo-600 text-white text-sm font-medium rounded-lg shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all flex items-center"
                         :disabled="form.processing">

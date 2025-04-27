@@ -81,16 +81,15 @@ const handleSearch = (data) => {
                 </div> -->
 
                 <!-- Empty State -->
-                <div v-if="events.length === 0"
-                    class="bg-white rounded-2xl shadow-xl overflow-hidden text-center py-16 px-6">
+                <div v-if="events.length === 0" class="bg-slate-200 rounded-2xl overflow-hidden text-center py-16 px-6">
                     <div class="max-w-md mx-auto">
-                        <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-purple-100">
-                            <svg class="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-blue-50">
+                            <svg class="h-8 w-8 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
                                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                         </div>
-                        <h2 class="mt-6 text-2xl font-bold text-gray-900">No events found</h2>
+                        <h2 class="mt-6 text-xl text-gray-900">No events found</h2>
                         <!-- <p class="mt-2 text-gray-600">Create your first event to start selling and scanning tickets.</p>
                         <div class="mt-8">
                             <Link :href="route('events.create')"
@@ -133,7 +132,7 @@ const handleSearch = (data) => {
                         <div class="p-6">
                             <div class="flex justify-between items-start">
                                 <h3 class="text-xl font-bold text-gray-900 truncate">{{ event.name || 'Untitled Event'
-                                }}</h3>
+                                    }}</h3>
                                 <span
                                     class="flex-shrink-0 bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
                                     {{ event.ticket_capacity || 0 }} tickets
@@ -165,7 +164,7 @@ const handleSearch = (data) => {
                                 </div>
                             </div>
 
-                            <div class="mt-6">
+                            <!-- <div class="mt-6">
                                 <div
                                     class="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 group">
                                     <span>Manage event</span>
@@ -177,7 +176,7 @@ const handleSearch = (data) => {
                                         </path>
                                     </svg>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         </Link>
                     </div>

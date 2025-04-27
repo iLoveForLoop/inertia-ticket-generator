@@ -27,7 +27,7 @@
 
         .ticket-left {
             width: 75%;
-            background: #2563eb;
+            background: #2d3036;
             color: white;
             padding: 30px;
             vertical-align: top;

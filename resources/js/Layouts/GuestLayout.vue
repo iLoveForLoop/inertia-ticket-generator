@@ -1,22 +1,29 @@
 <script setup>
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import { ArrowLeftIcon } from '@heroicons/vue/24/outline';
 import { Link } from '@inertiajs/vue3';
 </script>
 
 <template>
-    <div
-        class="flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0 dark:bg-gray-900"
-    >
-        <div>
+    <div class="min-h-screen bg-gradient-to-b from-white to-slate-50 flex flex-col items-center justify-center p-6">
+        <Link href="/" class="hidden md:block fixed left-10 top-8 ">
+        <ArrowLeftIcon class="h-7 w-7" />
+        </Link>
+        <!-- <div class="mb-8">
             <Link href="/">
-                <ApplicationLogo class="h-20 w-20 fill-current text-gray-500" />
+            <h1 class="text-2xl font-bold tracking-tight">
+                <span class="text-slate-700">Tick</span><span class="text-indigo-500">It</span>
+            </h1>
             </Link>
-        </div>
+        </div> -->
 
         <div
-            class="mt-6 w-full overflow-hidden bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg dark:bg-gray-800"
-        >
-            <slot />
+            class="w-full max-w-md bg-gradient-to-b from-white to-slate-50 rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+            <div class="p-8">
+                <slot />
+            </div>
         </div>
+
+
     </div>
 </template>

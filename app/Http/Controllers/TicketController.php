@@ -16,6 +16,7 @@ class TicketController extends Controller
 {
     use AuthorizesRequests;
     public function index(Event $event){
+
         return inertia('VerifyTicket/VerifyTicket', compact('event'));
     }
 
@@ -46,7 +47,7 @@ class TicketController extends Controller
         ]);
 
         return back()
-            ->with('success', 'Ticket verified successfully for event "' . $ticket->event->name . '" at ' . $ticket->event->venue . ' on ' . $ticket->event->date_time->format('Y-m-d H:i:s'));
+            ->with('success', 'Ticket verified successfully for event "' . $ticket->event->name . '" at ' . $ticket->event->venue . ' on ' . $ticket->scanned_at->format('Y-m-d H:i:s'));
 
     }
 
@@ -92,7 +93,7 @@ public function bulkDownload(Event $event)
         }
         $zip->close();
 
-        // Clean up temp files
+
         foreach ($event->tickets as $ticket) {
             unlink(storage_path("app/public/temp/ticket-{$ticket->ticket_number}.pdf"));
         }
@@ -122,7 +123,7 @@ public function eventTickets(Request $request)
         ->when($search, fn($query, $search) =>
             $query->where('name', 'like', "%{$search}%")
         )
-        ->paginate(5);
+        ->get();
 
     return inertia('Tickets/Events', [
         'events' => $events->map(function ($event) {
@@ -143,8 +144,17 @@ public function eventTickets(Request $request)
 }
 
     public function showTickets(Event $event){
-        $tickets = $event->tickets()->paginate(10);
-        return inertia('Tickets/Index', compact('event', 'tickets'));
+        $filter = request('filter', 'all');
+        $ticketsQuery = $event->tickets();
+
+        if($filter === 'scanned'){
+            $ticketsQuery->where('is_scanned', true);
+        } elseif($filter === 'not_scanned'){
+            $ticketsQuery->where('is_scanned', false);
+        }
+
+        $tickets = $ticketsQuery->paginate(7)->withQueryString();
+        return inertia('Tickets/Index', compact('event', 'tickets', 'filter'));
     }
 
 

@@ -1,82 +1,120 @@
 <template>
-    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+    <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
         <!-- Scanner Header -->
-        <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
-            <h3 class="text-lg font-medium text-gray-900">QR Code Scanner</h3>
-            <p class="mt-1 text-sm text-gray-500">Point your camera at a ticket QR code to verify</p>
-        </div>
-
-        <!-- Scanner Viewport with Target Box -->
-        <div class="relative p-4">
-            <div id="scanner" class="mx-auto max-w-md rounded-lg overflow-hidden bg-gray-100 aspect-square relative">
-                <!-- Target Box Overlay -->
-                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div class="relative w-64 h-64">
-                        <!-- Border with animated corners -->
-                        <div class="absolute inset-0 border-4 border-blue-400/50 rounded-lg"></div>
-                        <!-- Animated corner elements -->
-                        <div class="absolute -top-1 -left-1 w-6 h-6 border-t-4 border-l-4 border-blue-500"></div>
-                        <div class="absolute -top-1 -right-1 w-6 h-6 border-t-4 border-r-4 border-blue-500"></div>
-                        <div class="absolute -bottom-1 -left-1 w-6 h-6 border-b-4 border-l-4 border-blue-500"></div>
-                        <div class="absolute -bottom-1 -right-1 w-6 h-6 border-b-4 border-r-4 border-blue-500"></div>
-                        <!-- Scanning animation -->
-                        <div class="absolute top-0 left-0 right-0 h-1 bg-blue-400 animate-scan"></div>
-                    </div>
+        <div class="px-6 py-4 border-b border-slate-100 bg-slate-50">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800">QR Code Scanner</h3>
+                    <p class="mt-1 text-sm text-slate-500">Scan event tickets for verification</p>
                 </div>
-
-                <!-- Initial State -->
-                <div v-if="!isScanning" class="h-full flex items-center justify-center">
-                    <div class="text-center p-6">
-                        <svg class="mx-auto h-12 w-12 text-gray-400 animate-pulse" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z">
-                            </path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        </svg>
-                        <h3 class="mt-2 text-sm font-medium text-gray-900">Initializing scanner...</h3>
-                    </div>
+                <div v-if="isScanning" class="flex items-center">
+                    <span class="relative flex h-3 w-3 mr-2">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    </span>
+                    <span class="text-sm font-medium text-green-600">Active</span>
                 </div>
             </div>
         </div>
 
-        <!-- Scanning Status -->
-        <div v-if="isScanning" class="px-6 py-3 bg-blue-50 border-t border-blue-100 text-center">
-            <p class="text-sm font-medium text-blue-800">
-                Scanning for QR codes...
-            </p>
+        <!-- Scanner Viewport with Target Box -->
+        <div class="relative p-6">
+            <div id="scanner" class="mx-auto max-w-md rounded-xl overflow-hidden bg-slate-50 aspect-square relative">
+                <!-- Target Box Overlay -->
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div class="relative w-64 h-64">
+                        <!-- Border with animated corners -->
+                        <div class="absolute inset-0 border-4 border-indigo-300/30 rounded-xl"></div>
+                        <!-- Animated corner elements -->
+                        <div class="absolute -top-1 -left-1 w-6 h-6 border-t-4 border-l-4 border-indigo-500"></div>
+                        <div class="absolute -top-1 -right-1 w-6 h-6 border-t-4 border-r-4 border-indigo-500"></div>
+                        <div class="absolute -bottom-1 -left-1 w-6 h-6 border-b-4 border-l-4 border-indigo-500"></div>
+                        <div class="absolute -bottom-1 -right-1 w-6 h-6 border-b-4 border-r-4 border-indigo-500"></div>
+                        <!-- Scanning animation -->
+                        <div
+                            class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-indigo-400 to-transparent animate-scan">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Initial State -->
+                <div v-if="!isScanning" class="h-full flex flex-col items-center justify-center p-6 text-center">
+                    <div class="mb-4 p-3 rounded-full bg-slate-100 text-slate-400">
+                        <svg class="w-8 h-8 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-sm font-medium text-slate-700">Initializing scanner</h3>
+                    <p class="mt-1 text-xs text-slate-500">Please wait while we prepare the camera</p>
+                </div>
+            </div>
         </div>
 
         <!-- Scanning Instructions -->
-        <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 rounded-b-xl">
-            <h4 class="text-sm font-medium text-gray-900 mb-2">Scanning Instructions</h4>
-            <ul class="text-sm text-gray-600 space-y-1">
+        <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 rounded-b-xl">
+            <h4 class="text-sm font-medium text-slate-700 mb-3">Scanning instructions</h4>
+            <ul class="text-sm text-slate-600 space-y-2">
                 <li class="flex items-start">
-                    <svg class="flex-shrink-0 h-5 w-5 text-blue-500 mr-2" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    <span>Position the QR code within the target area</span>
+                    <span class="flex-shrink-0 mt-0.5 mr-2">
+                        <span
+                            class="inline-flex items-center justify-center h-5 w-5 rounded-full bg-indigo-100 text-indigo-600">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </span>
+                    </span>
+                    <span>Position the QR code within the target frame</span>
                 </li>
                 <li class="flex items-start">
-                    <svg class="flex-shrink-0 h-5 w-5 text-blue-500 mr-2" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
+                    <span class="flex-shrink-0 mt-0.5 mr-2">
+                        <span
+                            class="inline-flex items-center justify-center h-5 w-5 rounded-full bg-indigo-100 text-indigo-600">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </span>
+                    </span>
                     <span>Hold steady about 6-12 inches from the camera</span>
                 </li>
                 <li class="flex items-start">
-                    <svg class="flex-shrink-0 h-5 w-5 text-blue-500 mr-2" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
+                    <span class="flex-shrink-0 mt-0.5 mr-2">
+                        <span
+                            class="inline-flex items-center justify-center h-5 w-5 rounded-full bg-indigo-100 text-indigo-600">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </span>
+                    </span>
                     <span>Ensure good lighting on the QR code</span>
                 </li>
             </ul>
         </div>
     </div>
 </template>
+
+<style>
+@keyframes scan {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(256px);
+    }
+}
+
+.animate-scan {
+    animation: scan 2s ease-in-out infinite;
+}
+</style>
 
 <script setup>
 import { Html5QrcodeScanner } from 'html5-qrcode';

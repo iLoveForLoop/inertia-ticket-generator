@@ -1,19 +1,25 @@
 <script setup>
 import MainLayout from '@/Layouts/MainLayout.vue';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import Pagination from '@/Components/Pagination.vue'
+import SelectFilter from '@/Components/SelectFilter.vue';
+import { router } from '@inertiajs/vue3';
 
 const props = defineProps({
     event: {
-        type: Array,
-        default: []
+        type: Object,
+
     },
     tickets: {
         type: Object
+    },
+    filter: {
+        type: String
     }
 });
 
 const isPrinting = ref(false);
+
 
 const printTicket = (ticketId) => {
     const iframe = document.getElementById('pdf-iframe');
@@ -49,15 +55,28 @@ const formatDate = (dateString) => {
     });
 };
 
-console.log('PAGINAATE: ', props.tickets.meta)
+const filter = ref(props.filter || 'all');
+
+// watch(filter, (newFilter) => {
+//     router.get(route('tickets', { event: props.event.id }), { filter: newFilter }, { preserveState: true, preserveScroll: true });
+// });
+
+watch(filter, (newFilter) => {
+    router.get(route('tickets', { event: props.event.id }), { filter: newFilter }, { preserveState: true, preserveScroll: true });
+});
 </script>
 
 <template>
+
     <MainLayout>
         <template #header>
             <div class="w-full flex items-center justify-between">
                 <h1 class="md:text-2xl font-bold text-slate-700">Tickets</h1>
-                <Pagination :links="tickets.links" :from="tickets.from" :to="tickets.to" :total="tickets.total" />
+                <SelectFilter v-model="filter" label="Filter Tickets" :options="[
+                    { label: 'All Tickets', value: 'all' },
+                    { label: 'Scanned', value: 'scanned' },
+                    { label: 'Not Scanned', value: 'not_scanned' },
+                ]" />
             </div>
 
         </template>
@@ -67,10 +86,10 @@ console.log('PAGINAATE: ', props.tickets.meta)
             <div class="flex justify-between items-center mb-3 border-b pb-4">
                 <div>
                     <h1 class="text-2xl font-bold text-gray-900">{{ event.name }}</h1>
-                    <p class="text-sm text-gray-500">Ticket Management</p>
+
                 </div>
                 <button
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-sm flex items-center"
+                    class="bg-slate-700 hover:bg-slate-800 text-white px-4 py-2 rounded-md shadow-sm flex items-center"
                     @click="bulkDownloadTicket">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20"
                         fill="currentColor">
@@ -142,6 +161,8 @@ console.log('PAGINAATE: ', props.tickets.meta)
                 <h3 class="mt-2 text-sm font-medium text-gray-900">No tickets found</h3>
                 <p class="mt-1 text-sm text-gray-500">There are no tickets available for this event yet.</p>
             </div>
+
+            <Pagination :links="tickets.links" :from="tickets.from" :to="tickets.to" :total="tickets.total" />
         </div>
     </MainLayout>
 </template>

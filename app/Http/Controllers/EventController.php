@@ -131,8 +131,14 @@ class EventController extends Controller
 
 
     public function scanEvent(){
-        $events = auth()->user()->events()->latest()->get();
+        $search = request('search');
+        $events = auth()->user()
+        ->events()
+        ->latest()
+        ->when($search, fn($query, $search) =>
+        $query->where('name', 'like', "%{$search}%")
+    )->get();
 
-        return inertia('VerifyTicket/VerifyEvent', compact('events'));
+        return inertia('VerifyTicket/VerifyEvent', compact('events', 'search'));
     }
 }
