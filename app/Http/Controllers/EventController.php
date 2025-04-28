@@ -12,12 +12,15 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class EventController extends Controller
 {
-    use AuthorizesRequests; // Add this trait
+    use AuthorizesRequests;
 
     public function index(Request $request){
 
         $search = $request->input('search');
         $events = auth()->user()->events()
+        ->withCount(['tickets', 'tickets as scanned_tickets_count' => function($query) {
+            $query->where('is_scanned', true);
+        }])
         ->latest()
         ->when($search, fn($query, $search) =>
             $query->where('name', 'like', "%{$search}%")
@@ -134,6 +137,9 @@ class EventController extends Controller
         $search = request('search');
         $events = auth()->user()
         ->events()
+        ->withCount(['tickets', 'tickets as scanned_tickets_count' => function($query) {
+            $query->where('is_scanned', true);
+        }])
         ->latest()
         ->when($search, fn($query, $search) =>
         $query->where('name', 'like', "%{$search}%")

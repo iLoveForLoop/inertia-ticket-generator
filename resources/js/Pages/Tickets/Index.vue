@@ -4,6 +4,10 @@ import { ref, watch } from 'vue';
 import Pagination from '@/Components/Pagination.vue'
 import SelectFilter from '@/Components/SelectFilter.vue';
 import { router } from '@inertiajs/vue3';
+import ExportLoader from '@/Components/Loader/ExportLoader.vue';
+import { ArrowLeftIcon } from '@heroicons/vue/20/solid';
+import axios from 'axios';
+
 
 const props = defineProps({
     event: {
@@ -19,6 +23,9 @@ const props = defineProps({
 });
 
 const isPrinting = ref(false);
+const loadingTime = ref((props.event.ticket_capacity / 100) * 9000)
+// console.log(loadingTime.value)
+const isBulkDownloading = ref(false);
 
 
 const printTicket = (ticketId) => {
@@ -39,8 +46,28 @@ const downloadTicket = (ticketId) => {
     window.location.href = route('download', { event: props.event.id, ticket: ticketId });
 };
 
-const bulkDownloadTicket = () => {
-    window.location.href = route('bulk-download', { event: props.event.id });
+const bulkDownloadTicket = async () => {
+    isBulkDownloading.value = true
+
+    try {
+        const { data } = await axios.get(
+            route('bulk-download', { event: props.event.id }),
+            { responseType: 'blob' }
+        )
+
+        // create a link to download the blob
+        const blobUrl = URL.createObjectURL(data)
+        const a = document.createElement('a')
+        a.href = blobUrl
+        a.download = `${props.event.name}-tickets.zip`
+        document.body.appendChild(a)
+        a.click()
+        URL.revokeObjectURL(blobUrl)
+    } catch (e) {
+        console.error(e)
+    } finally {
+        isBulkDownloading.value = false
+    }
 };
 
 const formatDate = (dateString) => {
@@ -64,14 +91,26 @@ const filter = ref(props.filter || 'all');
 watch(filter, (newFilter) => {
     router.get(route('tickets', { event: props.event.id }), { filter: newFilter }, { preserveState: true, preserveScroll: true });
 });
+
+const goBack = () => {
+    window.history.back();
+}
 </script>
 
 <template>
-
+    <!-- <Loader /> -->
+    <ExportLoader v-if="isBulkDownloading" />
     <MainLayout>
         <template #header>
             <div class="w-full flex items-center justify-between">
-                <h1 class="md:text-2xl font-bold text-slate-700">Tickets</h1>
+                <div class="flex items-center gap-2">
+                    <button @click="goBack"
+                        class="hidden md:block md:p-2 md:hover:bg-gray-100 md:rounded-full md:transition-colors">
+                        <ArrowLeftIcon class="w-6 h-6 cursor-pointer" />
+                    </button>
+                    <h1 class="md:text-2xl font-bold text-slate-700">Tickets</h1>
+                </div>
+
                 <SelectFilter v-model="filter" label="Filter Tickets" :options="[
                     { label: 'All Tickets', value: 'all' },
                     { label: 'Scanned', value: 'scanned' },

@@ -105,6 +105,23 @@ const handleSearch = (data) => {
                                 </svg>
                                 <span>{{ event.venue }}</span>
                             </div>
+                            <div class="mt-4 pt-3 border-t border-gray-100">
+                                <div class="flex items-center justify-between mb-1">
+                                    <div>
+                                        <span class="text-xs font-medium text-gray-900">{{
+                                            event.scanned_tickets_count
+                                        }}</span>
+                                        <span class="text-xs text-gray-500"> / {{ event.tickets_count }} tickets
+                                            scanned</span>
+                                    </div>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-600 h-2 rounded-full"
+                                        :style="`width: ${(event.scanned_tickets_count / event.tickets_count) * 100}%`">
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>

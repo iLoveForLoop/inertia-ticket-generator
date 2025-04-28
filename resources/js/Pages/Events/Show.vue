@@ -198,7 +198,7 @@ const goBack = () => {
                     <!-- Action Buttons -->
                     <div class="bg-white rounded-xl p-6 shadow-sm">
                         <button @click="router.get(route('tickets', event.id))"
-                            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg mb-3 transition-colors duration-200 flex items-center justify-center">
+                            class="w-full bg-slate-600 hover:bg-slate-700 text-white font-medium py-3 px-4 rounded-lg mb-3 transition-colors duration-200 flex items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

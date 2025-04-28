@@ -1,27 +1,34 @@
 <style scoped>
 .container {
     width: fit-content;
-    gap: 10px
+    gap: 10px;
 }
 
 .folder {
     width: min-content;
     margin: auto;
     animation: float 2s infinite linear;
+    /* scaled down by 35% from original (i.e., 65% size) */
+    transform: scale(0.65);
 }
 
 .folder .top {
     background-color: #FF8F56;
-    width: 60px;
-    height: 12px;
+    width: 39px;
+    /* 60px * 0.65 */
+    height: 8px;
+    /* 12px * 0.65 ≈ 8px */
     border-top-right-radius: 10px;
 }
 
 .folder .bottom {
     background-color: #FFCE63;
-    width: 100px;
-    height: 70px;
-    box-shadow: 5px 5px 0 0 #283149;
+    width: 65px;
+    /* 100px * 0.65 */
+    height: 46px;
+    /* 70px * 0.65 ≈ 46px */
+    box-shadow: 3px 3px 0 0 #283149;
+    /* 5px * 0.65 ≈ 3px */
     border-top-right-radius: 8px;
 }
 
@@ -34,28 +41,28 @@
 
 @keyframes float {
     0% {
-        transform: translatey(0px);
+        transform: translateY(0px) scale(0.65);
     }
 
     50% {
-        transform: translatey(-25px);
+        transform: translateY(-25px) scale(0.65);
     }
 
     100% {
-        transform: translatey(0px);
+        transform: translateY(0px) scale(0.65);
     }
 }
 </style>
 
 <template>
-    <div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
+    <div
+        class="fixed inset-0 bg-gray-500 opacity-75 dark:bg-gray-900 flex flex-col items-center justify-center z-50 gap-5">
         <div class="container">
             <div class="folder">
                 <div class="top"></div>
                 <div class="bottom"></div>
             </div>
-            <div class="title">getting files ready...</div>
+            <div class="text-gray-50">Getting files ready...</div>
         </div>
     </div>
-
 </template>

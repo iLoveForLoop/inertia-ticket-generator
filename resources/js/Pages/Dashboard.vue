@@ -222,7 +222,7 @@ const greeting = computed(() => {
                                 <p class="mt-1 text-xs">Scan activity will appear here</p>
                             </div>
                             <div v-for="ticket in stats.recent_activity" :key="ticket.id" class="p-6 md:py-0 md:px-6 ">
-                                <div class="flex items-start truncate ">
+                                <div class="flex items-start">
                                     <div
                                         class="flex-shrink-0 h-10 w-10 rounded-full bg-slate-700 flex items-center justify-center text-green-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
@@ -231,9 +231,9 @@ const greeting = computed(() => {
                                                 d="M5 13l4 4L19 7" />
                                         </svg>
                                     </div>
-                                    <div class="ml-4 ">
-                                        <p class="text-sm font-medium text-gray-600 ">Ticket #{{
-                                            ticket.ticket_number }}
+                                    <div class="ml-4 min-w-0 flex-1">
+                                        <p class="text-sm font-medium text-gray-600 truncate">Ticket
+                                            #{{ ticket.ticket_number }}
                                         </p>
                                         <p class="text-sm text-gray-500">Scanned at {{ formatDateTime(ticket.scanned_at)
                                             }}</p>

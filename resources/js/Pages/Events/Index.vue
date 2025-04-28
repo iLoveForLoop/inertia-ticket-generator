@@ -163,20 +163,24 @@ const handleSearch = (data) => {
                                     <span class="ml-2 text-gray-700">{{ event.venue || 'No venue specified' }}</span>
                                 </div>
                             </div>
-
-                            <!-- <div class="mt-6">
-                                <div
-                                    class="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 group">
-                                    <span>Manage event</span>
-                                    <svg class="ml-1 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
-                                        fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 5l7 7-7 7">
-                                        </path>
-                                    </svg>
+                            <!-- Tickets Progress -->
+                            <div class="mt-4 pt-3 border-t border-gray-100">
+                                <div class="flex items-center justify-between mb-1">
+                                    <div>
+                                        <span class="text-xs font-medium text-gray-900">{{
+                                            event.scanned_tickets_count
+                                        }}</span>
+                                        <span class="text-xs text-gray-500"> / {{ event.tickets_count }} tickets
+                                            scanned</span>
+                                    </div>
                                 </div>
-                            </div> -->
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-600 h-2 rounded-full"
+                                        :style="`width: ${(event.scanned_tickets_count / event.tickets_count) * 100}%`">
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                         </Link>
                     </div>

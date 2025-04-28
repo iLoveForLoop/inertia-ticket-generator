@@ -72,6 +72,7 @@ class TicketController extends Controller
 
 public function bulkDownload(Event $event)
 {
+    set_time_limit(3000);
     $this->authorize('view', $event);
 
     $zip = new ZipArchive;

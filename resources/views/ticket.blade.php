@@ -134,7 +134,7 @@
         <tr class="ticket-row">
             <!-- Left side -->
             <td class="ticket-left">
-                <div class="event-category">Concert Ticket</div>
+                <div class="event-category">Event Ticket</div>
                 <div class="event-name">{{ $ticket->event->name }}</div>
                 <div class="ticket-details">
                     <div class="detail-item">

@@ -1,11 +1,60 @@
+<script setup>
+import MainLayout from '@/Layouts/MainLayout.vue';
+import Scanner from '../Partials/Scanner.vue';
+import { usePage } from '@inertiajs/vue3';
+import { ArrowLeftIcon } from '@heroicons/vue/20/solid';
+import { ref } from 'vue';
+
+const props = defineProps({
+    event: Object
+});
+
+// const formatDate = (dateString) => {
+//     if (!dateString) return 'No date set';
+//     const options = {
+//         year: 'numeric',
+//         month: 'short',
+//         day: 'numeric',
+//         hour: '2-digit',
+//         minute: '2-digit'
+//     };
+//     return new Date(dateString).toLocaleDateString('en-US', options);
+// };
+
+const formatDateTime = (dateString) => {
+    if (!dateString) return '';
+    return new Date(dateString).toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+};
+
+const goBack = () => {
+    window.history.back()
+}
+
+const isShowing = ref(false)
+
+</script>
+
 <template>
     <MainLayout>
         <template #header>
             <div class="flex items-center justify-between">
-                <h1 class="text-xl md:text-2xl font-bold text-slate-800">
-                    Scanning tickets for:
-                    <span class="text-indigo-600">{{ event.name }}</span>
-                </h1>
+                <div class="flex items-center gap-2">
+                    <button @click="goBack"
+                        class="hidden md:block md:p-2 md:hover:bg-gray-100 md:rounded-full md:transition-colors">
+                        <ArrowLeftIcon class="w-6 h-6 cursor-pointer" />
+                    </button>
+                    <h1 class="md:text-2xl font-bold text-slate-700">Scanning tickets for
+                        <span class="text-indigo-600">{{ event.name }}</span>
+                    </h1>
+                </div>
+
                 <div class="text-sm text-slate-500">
                     <span class="hidden sm:inline">Event ID:</span> #{{ event.id }}
                 </div>
@@ -120,39 +169,7 @@
     </MainLayout>
 </template>
 
-<script setup>
-import MainLayout from '@/Layouts/MainLayout.vue';
-import Scanner from '../Partials/Scanner.vue';
-import { usePage } from '@inertiajs/vue3';
 
-const props = defineProps({
-    event: Object
-});
-
-// const formatDate = (dateString) => {
-//     if (!dateString) return 'No date set';
-//     const options = {
-//         year: 'numeric',
-//         month: 'short',
-//         day: 'numeric',
-//         hour: '2-digit',
-//         minute: '2-digit'
-//     };
-//     return new Date(dateString).toLocaleDateString('en-US', options);
-// };
-
-const formatDateTime = (dateString) => {
-    if (!dateString) return '';
-    return new Date(dateString).toLocaleString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-    });
-};
-</script>
 
 <style scoped>
 /* Custom styles if needed */

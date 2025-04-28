@@ -26,8 +26,8 @@ const closeMobileMenu = () => {
             <div :class="[ui.sidebarCollapsed ? 'w-20' : 'w-64', 'flex flex-col   transition-all duration-300']">
                 <!-- Logo/Brand -->
                 <div :class="['flex items-center  h-16 px-3 ', ui.sidebarCollapsed ? 'justify-center' : '']">
-                    <div class="flex items-center ">
-                        <img src="/logo/tickit5.png" alt="TickIt Logo" class="h-[2.6em] w-[2.6em]">
+                    <div class="flex items-center gap-3">
+                        <img src="/logo/finalogo.png" alt="TickIt Logo" class="h-[2.6em] w-[2.6em]">
                         <span v-if="!ui.sidebarCollapsed" class="text-xl font-bold text-gray-50">TickIt</span>
                     </div>
                 </div>
@@ -124,25 +124,21 @@ const closeMobileMenu = () => {
                         leave-from-class="translate-x-0" leave-to-class="-translate-x-full">
                         <div v-show="mobileMenuOpen" class="relative flex flex-col w-full max-w-xs bg-slate-700">
                             <!-- Close button -->
-                            <div class="absolute top-0 right-0 -mr-14 p-1">
+                            <!-- <div class="absolute top-0 right-0 -mr-14 p-1">
                                 <button type="button"
                                     class="flex items-center justify-center h-12 w-12 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                                     @click="mobileMenuOpen = false">
                                     <span class="sr-only">Close sidebar</span>
                                     <XMarkIcon class="h-6 w-6 text-white" />
                                 </button>
-                            </div>
+                            </div> -->
 
                             <!-- Sidebar content -->
                             <div class="flex-1 flex flex-col overflow-y-auto">
                                 <!-- Logo/Brand -->
                                 <div class="flex items-center h-16 px-4 border-b border-gray-200">
                                     <div class="flex items-center">
-                                        <svg class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
-                                        </svg>
+                                        <img src="/logo/finalogo.png" alt="TickIt Logo" class="h-[2.6em] w-[2.6em]">
                                         <span class="ml-2 text-xl font-bold text-gray-900">TickIt</span>
                                     </div>
                                 </div>
@@ -245,7 +241,7 @@ const closeMobileMenu = () => {
                                     <MenuItem v-slot="{ active }">
                                     <Link :href="route('logout')" method="post" as="button"
                                         :class="[active ? 'bg-gray-100' : '', 'block w-full text-left px-4 py-2 text-sm text-gray-700']">
-                                    Sign out
+                                    Log out
                                     </Link>
                                     </MenuItem>
                                 </MenuItems>
