@@ -1,4 +1,6 @@
 <template>
+
+    <Head title="Welcome" />
     <div class="min-h-screen bg-white">
         <!-- Navigation - Sleeker with subtle shadow -->
         <nav class="bg-white shadow-sm">
@@ -355,5 +357,6 @@
 </template>
 
 <script setup>
-import { Link } from '@inertiajs/vue3';
+// import Head from '@inertiajs/vue3';
+import { Link, Head } from '@inertiajs/vue3';
 </script>

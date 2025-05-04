@@ -3,6 +3,7 @@ import Searchbar from '@/Components/Searchbar.vue';
 import MainLayout from '@/Layouts/MainLayout.vue';
 import { router } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import ToVerifyEventCard from '@/Components/ToVerifyEventCard.vue';
 
 const props = defineProps({
     events: {
@@ -60,9 +61,10 @@ const handleSearch = (data) => {
 
                 <!-- Events Grid -->
                 <div v-if="events.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div v-for="event in events" :key="event.id" @click="selectEvent(event)"
+                    <ToVerifyEventCard :events="events" />
+                    <!-- <div v-for="event in events" :key="event.id" @click="selectEvent(event)"
                         class="bg-white rounded-xl shadow-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer group">
-                        <!-- Event Image -->
+
                         <div class="h-48 bg-gray-200 overflow-hidden">
 
                             <img v-if="event.image_path" :src="'/storage/' + event.image_path" :alt="event.name"
@@ -73,7 +75,7 @@ const handleSearch = (data) => {
                             </div>
                         </div>
 
-                        <!-- Event Content -->
+
                         <div class="p-6">
                             <div class="flex justify-between items-start">
                                 <h2 class="text-xl font-bold text-gray-900 mb-2 truncate">{{ event.name }}</h2>
@@ -123,7 +125,7 @@ const handleSearch = (data) => {
 
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- Empty State -->

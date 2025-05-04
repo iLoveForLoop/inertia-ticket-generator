@@ -56,7 +56,8 @@ const submit = () => {
 
                     <TextInput id="email" type="email"
                         class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-slate-700 focus:ring-2 focus:ring-slate-200 transition duration-200"
-                        v-model="form.email" required autofocus autocomplete="username" placeholder="you@example.com" />
+                        v-model="form.email" required autofocus autocomplete="username"
+                        placeholder="email@example.com" />
 
                     <InputError class="mt-2 text-sm text-red-600" :message="form.errors.email" />
                 </div>

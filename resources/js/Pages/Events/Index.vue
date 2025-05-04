@@ -3,6 +3,7 @@ import { Link, router } from '@inertiajs/vue3';
 import MainLayout from '@/Layouts/MainLayout.vue';
 import Searchbar from '@/Components/Searchbar.vue';
 import { ref } from 'vue';
+import EventCard from '@/Components/EventCard.vue';
 
 const props = defineProps({
     events: {
@@ -108,17 +109,18 @@ const handleSearch = (data) => {
 
                 <!-- Events Grid -->
                 <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div v-for="event in events" :key="event.id"
+                    <EventCard :events="events" />
+                    <!-- <div v-for="event in events" :key="event.id"
                         class="bg-slate-100 rounded-2xl shadow-2xl overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                         <Link :href="route('events.show', event.id)" class="block h-full">
-                        <!-- Event Image -->
+
                         <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 overflow-hidden relative">
                             <img v-if="event.image_path" :src="'/storage/' + event.image_path" :alt="event.name"
                                 class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
                             <div v-else class="h-full flex items-center justify-center">
                                 <span class="text-white text-4xl font-bold opacity-70">{{ event.name.charAt(0) }}</span>
                             </div>
-                            <!-- Status Badge -->
+
                             <div class="absolute top-4 right-4">
                                 <span class="px-3 py-1 rounded-full text-xs font-semibold"
                                     :class="event.date_time && new Date(event.date_time) > new Date() ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'">
@@ -128,7 +130,7 @@ const handleSearch = (data) => {
                             </div>
                         </div>
 
-                        <!-- Event Details -->
+
                         <div class="p-6">
                             <div class="flex justify-between items-start">
                                 <h3 class="text-xl font-bold text-gray-900 truncate">{{ event.name || 'Untitled Event'
@@ -163,7 +165,7 @@ const handleSearch = (data) => {
                                     <span class="ml-2 text-gray-700">{{ event.venue || 'No venue specified' }}</span>
                                 </div>
                             </div>
-                            <!-- Tickets Progress -->
+
                             <div class="mt-4 pt-3 border-t border-gray-100">
                                 <div class="flex items-center justify-between mb-1">
                                     <div>
@@ -183,7 +185,7 @@ const handleSearch = (data) => {
                             </div>
                         </div>
                         </Link>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

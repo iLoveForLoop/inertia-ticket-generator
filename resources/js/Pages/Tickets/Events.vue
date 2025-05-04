@@ -29,7 +29,9 @@ const handleSearch = (data) => {
         { search: data },
         { preserveState: true, replace: true })
 }
+
 </script>
+
 
 <template>
     <MainLayout>
@@ -106,7 +108,7 @@ const handleSearch = (data) => {
                                 </div>
                                 <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
                                     <span class="font-medium">{{ event.tickets_count }} / {{ event.ticket_capacity
-                                        }}</span>
+                                    }}</span>
                                     <span class="ml-1">tickets</span>
                                     <svg class="ml-2 h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 20 20" fill="currentColor">
