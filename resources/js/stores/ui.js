@@ -4,6 +4,12 @@ export const useUIStore = defineStore('ui', {
     state: () => ({
         sidebarCollapsed:
             JSON.parse(localStorage.getItem('sidebar-collapsed')) ?? true,
+        notifInfo: {
+            showing: false,
+            title: '',
+            type: '',
+            message: '',
+        },
     }),
     actions: {
         toggleSidebar() {
@@ -12,6 +18,14 @@ export const useUIStore = defineStore('ui', {
                 'sidebar-collapsed',
                 JSON.stringify(this.sidebarCollapsed),
             );
+        },
+
+        setNotification(notif) {
+            this.notifInfo = notif;
+        },
+
+        hideNotif(data) {
+            this.notifInfo.showing = data;
         },
     },
 });

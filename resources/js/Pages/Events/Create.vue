@@ -10,6 +10,9 @@ import 'flatpickr/dist/themes/material_blue.css';
 import { ref } from 'vue';
 import EventConfirmation from '@/Components/EventConfirmation.vue';
 import Modal from '@/Components/Modal.vue';
+import { useUIStore } from '@/stores/ui';
+
+const useNotif = useUIStore()
 
 const form = useForm({
     name: '',
@@ -76,6 +79,10 @@ const submit = (data) => {
         form.post(route('events.store'), {
             forceFormData: true,
         });
+        console.log('Done Creating')
+        useNotif.setNotification({ showing: true, title: "Success", type: "success", message: "Events and Tickets Generated" })
+
+
         return
     }
 

@@ -6,6 +6,9 @@ import FlatPickr from 'vue-flatpickr-component';
 import 'flatpickr/dist/flatpickr.css';
 import 'flatpickr/dist/themes/material_blue.css';
 import { ref, watch } from 'vue';
+import { useUIStore } from '@/stores/ui';
+
+const useNotif = useUIStore()
 
 const props = defineProps({
     event: Object
@@ -13,14 +16,7 @@ const props = defineProps({
 
 const emit = defineEmits(['closeEdit']);
 
-const showNotification = ref(false)
 
-const showSuccessNotification = () => {
-    showNotification.value = true
-    setTimeout(() => {
-        showNotification.value = false
-    }, 3000)
-}
 
 const dateTimeConfig = {
     enableTime: true,
@@ -59,8 +55,9 @@ const submit = () => {
     form.post(route('events.update', props.event.id), {
         forceFormData: true,
         onFinish: () => {
-            showSuccessNotification()
-            emit('closeEdit');
+            console.log("OnFinish Working")
+            useNotif.setNotification({ showing: true, title: 'Saved', type: 'info', message: "Event Edited" })
+            emit('closeEdit', true);
         }
     });
 };

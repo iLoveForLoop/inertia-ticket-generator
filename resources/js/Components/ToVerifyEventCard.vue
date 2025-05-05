@@ -76,7 +76,7 @@ const formatDate = (dateString) => {
                     <div>
                         <span class="text-xs font-medium text-gray-900">{{
                             event.scanned_tickets_count
-                            }}</span>
+                        }}</span>
                         <span class="text-xs text-gray-500"> / {{ event.tickets_count }} tickets
                             scanned</span>
                     </div>

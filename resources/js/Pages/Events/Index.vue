@@ -2,8 +2,14 @@
 import { Link, router } from '@inertiajs/vue3';
 import MainLayout from '@/Layouts/MainLayout.vue';
 import Searchbar from '@/Components/Searchbar.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import EventCard from '@/Components/EventCard.vue';
+import Notification from '@/Components/Notification.vue';
+import { useUIStore } from '@/stores/ui';
+
+const useNotif = useUIStore()
+const notifData = ref(useNotif.notifInfo)
+const isNotifying = ref(false)
 
 const props = defineProps({
     events: {
@@ -40,18 +46,24 @@ const handleSearch = (data) => {
 
 }
 
-// const handleSearch = (data) => {
-//     console.log(data)
-//     router.get(
-//         route('events.index'),
-//         { search: data },
-//         { preserveState: true, replace: true }
-//     )
-// }
+
+onMounted(() => {
+    if (useNotif.notifInfo.showing) {
+        isNotifying.value = useNotif.notifInfo.showing
+        setTimeout(() => {
+            useNotif.hideNotif()
+            isNotifying.value = false
+        }, 2000)
+    }
+})
 
 </script>
 
 <template>
+    <transition name="notification">
+        <Notification v-if="isNotifying" :type="notifData.type" :title="notifData.title" :message="notifData.message"
+            :duration="2000" />
+    </transition>
     <MainLayout>
         <template #header>
             <div class="w-full flex items-center justify-between">

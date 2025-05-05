@@ -1,14 +1,21 @@
 <script setup>
 import MainLayout from '@/Layouts/MainLayout.vue';
 import { Link, router } from '@inertiajs/vue3';
-import { ref, computed } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import EditForm from './Partials/EditForm.vue';
 import Confirmation from '@/Components/Confirmation.vue';
 import { ArrowLeftIcon } from '@heroicons/vue/20/solid';
+import Notification from '@/Components/Notification.vue';
+import { useUIStore } from '@/stores/ui';
 
 const props = defineProps({
     event: Object
 });
+
+const useNotif = useUIStore()
+const notifData = computed(() => useNotif.notifInfo)
+const isNotifying = ref(false)
+
 
 const isEditing = ref(false)
 const isConfirming = ref(false)
@@ -39,7 +46,6 @@ const formattedDate = computed(() => {
 });
 
 const deleteEvent = () => {
-    console.log('rer')
     isConfirming.value = true
 
 };
@@ -52,16 +58,55 @@ const editEvent = () => {
 
 const confirmedDeleteEvent = () => {
     router.delete(route('events.destroy', props.event.id));
+    useNotif.setNotification({ showing: true, title: 'Delete', type: 'error', message: "Event Deleted" })
+
 }
 
 const goBack = () => {
     window.history.back();
 }
 
+const handleCloseEdit = (data) => {
+    isEditing.value = false
+    console.log('PROPS', data)
+    if (data) {
+        console.log('Abot')
+        console.log('type of: ', useNotif.notifInfo.type)
+        isNotifying.value = true
+        setTimeout(() => {
+            useNotif.hideNotif(false)
+            isNotifying.value = false
+
+        }, 2000)
+    }
+}
+
+// watch(useNotif.notifInfo.showing, (data) => {
+//     setTimeout(() => {
+//         useNotif.hideNotif()
+//     }, 5000)
+// })
+
+onMounted(() => {
+    if (useNotif.notifInfo.showing) {
+        isNotifying.value = useNotif.notifInfo.showing
+
+        setTimeout(() => {
+            useNotif.hideNotif(false)
+            isNotifying.value = false
+            console.log('Im here: ', useNotif.notifInfo.showing)
+        }, 2000)
+    }
+})
 
 </script>
 
 <template>
+    <Transition name="notification">
+        <Notification v-if="isNotifying" :type="notifData.type" :title="notifData.title" :message="notifData.message"
+            :duration="2000" />
+    </Transition>
+
     <!-- Confirmation Modal -->
     <div v-if="isConfirming" @click.self="isConfirming = false"
         class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
@@ -73,7 +118,7 @@ const goBack = () => {
     <!-- Edit Modal -->
     <div v-if="isEditing" @click.self="isEditing = false"
         class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-40">
-        <EditForm :event="event" @closeEdit="isEditing = false" />
+        <EditForm :event="event" @closeEdit="handleCloseEdit" />
     </div>
 
     <MainLayout>
