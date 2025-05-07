@@ -27,9 +27,7 @@ const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', options);
 };
 
-const selectEvent = (event) => {
-    router.visit(`/verify-ticket/${event.id}`);
-};
+
 
 const search = ref(props.search)
 
@@ -42,8 +40,9 @@ const handleSearch = (data) => {
 <template>
     <MainLayout>
         <template #header>
-            <div class="w-full flex items-center justify-between">
-                <h1 class="md:text-2xl font-bold text-slate-700">Verify Tickets</h1>
+            <div class="w-full flex items-center justify-between gap-5">
+                <h1 class="md:text-2xl font-bold text-slate-700">Verify <span class="hidden md:inline">Tickets</span>
+                </h1>
                 <Searchbar @search="handleSearch" :search="search" />
             </div>
         </template>

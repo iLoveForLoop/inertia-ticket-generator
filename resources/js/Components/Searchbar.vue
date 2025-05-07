@@ -20,8 +20,9 @@ watch(() => inputedText.value, (newData) => {
 </script>
 
 <template>
-    <div class="group">
-        <svg viewBox="0 0 24 24" aria-hidden="true" class="search-icon">
+    <div class="relative w-full sm:w-64">
+        <svg viewBox="0 0 24 24" aria-hidden="true"
+            class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 fill-gray-400">
             <g>
                 <path
                     d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z">
@@ -29,10 +30,11 @@ watch(() => inputedText.value, (newData) => {
             </g>
         </svg>
 
-        <input id="query" class="input bg-gray-800" type="search" placeholder="Search..." name="searchbar"
-            v-model="inputedText" />
+        <input id="query" type="search" name="searchbar" placeholder="Search..." v-model="inputedText"
+            class="w-full pl-10 pr-4 py-2 rounded-xl bg-gray-800 text-gray-200 placeholder-gray-400 border-none shadow focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all" />
     </div>
 </template>
+
 
 
 <style scoped>

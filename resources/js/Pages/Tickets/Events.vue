@@ -36,7 +36,7 @@ const handleSearch = (data) => {
 <template>
     <MainLayout>
         <template #header>
-            <div class="w-full flex items-center justify-between">
+            <div class="w-full flex items-center justify-between gap-4">
                 <h1 class="md:text-2xl font-bold text-slate-700">Tickets</h1>
                 <Searchbar @search="handleSearch" :search="search" />
             </div>
