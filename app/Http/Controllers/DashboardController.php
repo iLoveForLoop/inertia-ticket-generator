@@ -14,15 +14,15 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        // Get events with ticket counts and scanned ticket counts
+        // events with ticket counts and scanned ticket counts
         $events = $user->events()
             ->withCount(['tickets', 'tickets as scanned_tickets_count' => function($query) {
                 $query->where('is_scanned', true);
             }])
             ->latest()
-            ->paginate(3); // Paginate for better performance
+            ->paginate(3);
 
-        // Get statistics
+        // statistics
         $stats = [
             'total_events' => $user->events()->count(),
             'upcoming_events' => $user->events()

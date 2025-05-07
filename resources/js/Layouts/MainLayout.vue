@@ -122,24 +122,17 @@ const closeMobileMenu = () => {
                         enter-from-class="-translate-x-full" enter-to-class="translate-x-0"
                         leave-active-class="transition ease-in-out duration-300 transform"
                         leave-from-class="translate-x-0" leave-to-class="-translate-x-full">
-                        <div v-show="mobileMenuOpen" class="relative flex flex-col w-full max-w-xs bg-slate-700">
+                        <div v-show="mobileMenuOpen" class="relative flex flex-col w-full max-w-xs bg-slate-800">
                             <!-- Close button -->
-                            <!-- <div class="absolute top-0 right-0 -mr-14 p-1">
-                                <button type="button"
-                                    class="flex items-center justify-center h-12 w-12 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-                                    @click="mobileMenuOpen = false">
-                                    <span class="sr-only">Close sidebar</span>
-                                    <XMarkIcon class="h-6 w-6 text-white" />
-                                </button>
-                            </div> -->
+
 
                             <!-- Sidebar content -->
                             <div class="flex-1 flex flex-col overflow-y-auto">
                                 <!-- Logo/Brand -->
-                                <div class="flex items-center h-16 px-4 border-b border-gray-200">
+                                <div class="flex items-center h-16 px-4 border-b border-slate-200">
                                     <div class="flex items-center">
                                         <img src="/logo/finalogo.png" alt="TickIt Logo" class="h-[2.6em] w-[2.6em]">
-                                        <span class="ml-2 text-xl font-bold text-gray-900">TickIt</span>
+                                        <span class="ml-2 text-xl font-bold text-slate-200">TickIt</span>
                                     </div>
                                 </div>
 
@@ -187,6 +180,17 @@ const closeMobileMenu = () => {
                                 </nav>
 
                                 <!-- User Profile Section -->
+                                <div class="px-4 py-4 border-t border-gray-200">
+                                    <div class="flex items-center">
+                                        <div class="ml-3">
+                                            <p class="text-sm font-medium text-slate-200">{{ $page.props.auth.user.name
+                                            }}</p>
+                                            <Link :href="route('profile.edit')" @click="closeMobileMenu"
+                                                class="text-xs font-medium text-indigo-600 hover:text-indigo-500">View
+                                            profile</Link>
+                                        </div>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
@@ -215,11 +219,11 @@ const closeMobileMenu = () => {
                         <!-- User dropdown -->
 
                         <Menu as="div" class="relative" v-if="route().current('dashboard')">
-                            <MenuButton class="flex items-center space-x-2">
+                            <MenuButton class="hidden md:flex items-center space-x-2">
                                 <span class="sr-only">Open user menu</span>
                                 <!-- <img class="h-8 w-8 rounded-full" :src="$page.props.auth.user.profile_photo_url"
                                     :alt="$page.props.auth.user.name" /> -->
-                                <span class="hidden md:inline text-sm font-medium text-slate-700">
+                                <span class="inline text-sm font-medium text-slate-700">
                                     <UserCircleIcon class="h-8 w-8" />
                                 </span>
                                 <ChevronDownIcon class="h-4 w-4 text-gray-400" />

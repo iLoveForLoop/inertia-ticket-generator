@@ -77,7 +77,7 @@ const handleCloseEdit = (data) => {
             useNotif.hideNotif(false)
             isNotifying.value = false
 
-        }, 2000)
+        }, 1000)
     }
 }
 
@@ -95,7 +95,7 @@ onMounted(() => {
             useNotif.hideNotif(false)
             isNotifying.value = false
             console.log('Im here: ', useNotif.notifInfo.showing)
-        }, 2000)
+        }, 1000)
     }
 })
 
@@ -104,7 +104,7 @@ onMounted(() => {
 <template>
     <Transition name="notification">
         <Notification v-if="isNotifying" :type="notifData.type" :title="notifData.title" :message="notifData.message"
-            :duration="2000" />
+            :duration="1000" />
     </Transition>
 
     <!-- Confirmation Modal -->

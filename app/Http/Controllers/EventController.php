@@ -86,8 +86,8 @@ class EventController extends Controller
     }
 
     public function edit(Event $event){
-        $this->authorize('update', $event); // Add authorization here too
-        return inertia('Events/Edit', compact('event')); // Don't forget to pass the event
+        $this->authorize('update', $event);
+        return inertia('Events/Edit', compact('event'));
     }
 
     public function update(Request $request, Event $event){
@@ -121,9 +121,11 @@ class EventController extends Controller
     }
 
     public function destroy(Event $event){
+
         $this->authorize('delete', $event);
 
         // Delete event image if exists
+        // dd($event->image_path);
         if ($event->image_path) {
             Storage::disk('public')->delete($event->image_path);
         }
